@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTTPMP3 - Audio Web Hosting Platform</title>
+    <title>Protocol % - Communication Through What's Already Universal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared-styles.css">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-xl: 0 35px 60px -12px rgba(0, 0, 0, 0.35);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,206 +29,1092 @@
         }
         
         body {
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
-            color: #c9d1d9;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
             line-height: 1.6;
-            min-height: 100vh;
+            overflow-x: hidden;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
         }
-        
+
+        /* Modern animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(67, 233, 123, 0.1) 0%, transparent 50%);
+            animation: float 25s ease-in-out infinite;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(102, 126, 234, 0.02) 50%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(118, 75, 162, 0.02) 50%, transparent 70%);
+            animation: shimmer 15s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            33% { transform: translateY(-30px) rotate(1deg) scale(1.02); }
+            66% { transform: translateY(15px) rotate(-1deg) scale(0.98); }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 32px;
         }
-        
-        .header {
-            text-align: center;
-            padding: 60px 0;
-            border-bottom: 1px solid #21262d;
-            margin-bottom: 40px;
+
+        /* Modern Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            z-index: 1000;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--card-border);
+            transition: all 0.3s ease;
         }
-        
-        .header h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(45deg, #58a6ff, #3fb950, #f85149);
+
+        .nav.scrolled {
+            background: rgba(15, 15, 35, 0.95);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 20px;
+            letter-spacing: -0.02em;
         }
-        
-        .header p {
-            color: #8b949e;
-            font-size: 1.3rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        
-        .feature-card {
-            background: #161b22;
-            border: 1px solid #21262d;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: #58a6ff;
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        
-        .feature-card h3 {
-            color: #f0f6fc;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-        
-        .feature-card p {
-            color: #8b949e;
-            line-height: 1.6;
-        }
-        
-        .cta-section {
-            text-align: center;
-            padding: 50px 0;
-            background: #161b22;
-            border-radius: 12px;
-            margin: 40px 0;
-        }
-        
-        .cta-buttons {
+
+        .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            padding: 10px 24px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-cta::after {
+            display: none;
+        }
+
+        /* GitHub Button Style - Matching the reference design */
+        .btn-github {
+            background: #24292e !important;
+            color: white !important;
+            border: 1px solid #30363d;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 0 rgba(27, 31, 36, 0.04);
+        }
+
+        .btn-github:hover {
+            background: #30363d !important;
+            border-color: #8b949e;
+            text-decoration: none;
+            color: white !important;
+            transform: none;
+        }
+
+        .btn-github::after {
+            display: none;
+        }
+
+        .btn-github svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 0 80px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            opacity: 0.03;
+            filter: blur(100px);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.03; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.05; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+        }
+        
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+        
+        .hero-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 24px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 30px;
+            margin-top: 20px;
         }
-        
+
+        /* Modern Buttons */
         .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 12px;
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
         .btn-primary {
-            background: #238636;
+            background: var(--primary-gradient);
             color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
-        
+
         .btn-primary:hover {
-            background: #2ea043;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
-        
-        .btn-secondary {
-            background: transparent;
-            color: #58a6ff;
-            border: 2px solid #58a6ff;
+
+        .btn-accent {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        /* SVG Icons */
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .icon-lg {
+            width: 48px;
+            height: 48px;
         }
         
-        .btn-secondary:hover {
-            background: #58a6ff;
-            color: #0d1117;
+        /* Modern Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .demo-section {
-            background: #0d1117;
-            border-radius: 12px;
-            padding: 40px;
-            margin: 40px 0;
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
-        
-        .demo-section h2 {
-            color: #58a6ff;
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card:hover::before {
+            opacity: 0.03;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 24px;
+            padding: 12px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* HTTPMP3 Section */
+        .httpmp3-section {
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .httpmp3-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--accent-gradient);
+            opacity: 0.02;
+            border-radius: 32px;
+            margin: 0 24px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2rem;
+            margin-bottom: 12px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .httpmp3-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .httpmp3-text {
+            padding: 32px;
+        }
+
+        .httpmp3-text h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .httpmp3-text p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .httpmp3-visual {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid var(--card-border);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .waveform-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .waveform {
+            width: 100%;
+            height: 80px;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(79, 172, 254, 0.2);
+        }
+
+        .waveform::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: wave 4s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .frequency-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 50px 0;
+        }
+
+        /* Action Grid */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 50px 0;
+        }
+
+        .action-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--secondary-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(240, 147, 251, 0.3);
+        }
+
+        .action-card:hover::before {
+            opacity: 0.03;
+        }
+
+        .action-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            padding: 12px;
+            background: var(--secondary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .action-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .action-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            font-size: 0.85rem;
+        }
+
+        /* Philosophy Section */
+        .philosophy {
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .philosophy::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: var(--success-gradient);
+            border-radius: 50%;
+            opacity: 0.02;
+            filter: blur(80px);
+        }
+
+        .philosophy-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .philosophy h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .philosophy-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.4;
+            font-weight: 300;
+            letter-spacing: -0.01em;
+        }
+
+        .philosophy-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .philosophy-text p {
+            margin-bottom: 16px;
         }
         
+        /* Footer */
         .footer {
             text-align: center;
             padding: 40px 0;
-            border-top: 1px solid #21262d;
+            border-top: 1px solid var(--card-border);
             margin-top: 60px;
-            color: #6e7681;
+            color: var(--text-muted);
+        }
+
+        .footer p {
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 100px 0 60px;
+            }
+            
+            .hero-content h1 {
+                font-size: clamp(2rem, 12vw, 3rem);
+            }
+            
+            .httpmp3-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            .nav-content {
+                padding: 0 24px;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
         }
     </style>
 </head>
 <body>
+    <div class="bg-animation"></div>
+    
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <div class="logo">Protocol %</div>
+            <ul class="nav-links">
+                <li><a href="#httpmp3">HTTPMP3</a></li>
+                <li><a href="generator.html">Generator</a></li>
+                <li><a href="decoder.html">Decoder</a></li>
+                <li><a href="#philosophy">Philosophy</a></li>
+                <li><a href="about.html">About</a></li>
+                <li>
+                    <a href="https://github.com/nia-cloud-official/httpmp3" target="_blank" class="btn-github">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </li>
+              </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <h1>Protocol %</h1>
+                <p class="hero-subtitle">Communication Through What's Already Universal</p>
+                <p class="hero-description">
+                    A revolutionary approach to data transmission that uses the elements around us — sound, light, heat, vibration — 
+                    as carriers for digital messages. No networks, no cables, no satellites. Just the universe itself.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#httpmp3" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 9.739 9 11 5.16-1.261 9-5.45 9-11V7l-10-5z"/>
+                        </svg>
+                        Explore HTTPMP3
+                    </a>
+                    <a href="decoder.html" class="btn btn-secondary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        Try Live Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="container">
-        <div class="header">
-            <h1>HTTPMP3</h1>
-            <p>Revolutionary audio-based web hosting platform. Upload your website as audio frequencies and host it anywhere sound can travel.</p>
-        </div>
-        
+        <!-- HTTPMP3 Section -->
+        <section id="httpmp3" class="httpmp3-section">
+            <h2 class="section-title">HTTPMP3</h2>
+            <p class="section-subtitle">Web Hosting Through Sound - Phase Two of Protocol % Research</p>
+            <div class="httpmp3-grid">
+                <div class="httpmp3-text">
+                    <h3>Revolutionary Audio Web Hosting</h3>
+                    <p>
+                        HTTPMP3 demonstrates Protocol % in practice: a web hosting platform that converts HTML into audio frequencies. 
+                        Your website becomes a sound file, capable of traveling anywhere sound can reach.
+                    </p>
+                    <p>
+                        Through speakers, radio waves, phone calls, or direct acoustic transmission — websites can now be broadcast 
+                        like songs, hidden in podcasts, or shared offline without internet infrastructure.
+                    </p>
+                    <p>
+                        <strong>New AI-Enhanced Decoding:</strong> Robust frequency matching with 10Hz tolerance, best match algorithms, 
+                        and ChatGPT integration for guaranteed proper HTML output validation.
+                    </p>
+                    <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+                        <a href="upload.html" class="btn btn-primary">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                            </svg>
+                            Upload Website
+                        </a>
+                        <a href="production_client.html" class="btn btn-accent">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                            </svg>
+                            Live Decoder
+                        </a>
+                    </div>
+                </div>
+                <div class="httpmp3-visual">
+                    <h4 style="color: var(--text-primary); margin-bottom: 24px; font-size: 1.25rem; font-weight: 600;">HTML → Audio → Website</h4>
+                    <div class="waveform-container">
+                        <div class="waveform">
+                            <div class="frequency-display">1020Hz → &lt;</div>
+                        </div>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">
+                        Real-time frequency mapping with FFT analysis, AI validation, and spectrogram visualization
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
         <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">🎵</div>
-                <h3>Audio Protocol</h3>
-                <p>Convert your HTML websites into audio frequencies using our proprietary Protocol % technology. Your website becomes a sound file.</p>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+                        </svg>
+                    </div>
+                    <h3>Medium Agnostic</h3>
+                    <p>Protocol % doesn't care about the carrier. Sound, light, heat, vibration — if it can change, it can carry a message. The medium shapes the transmission, but the meaning remains intact.</p>
+                </div>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">📡</div>
-                <h3>Universal Hosting</h3>
-                <p>Host websites through any audio medium - radio waves, phone calls, speakers, or even acoustic transmission through air.</p>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,18.5L21,5H3L12,18.5M12,15.5L6.5,7H17.5L12,15.5Z"/>
+                        </svg>
+                    </div>
+                    <h3>Shapeshifting Values</h3>
+                    <p>When the medium changes, the representation transforms too. The same binary message looks different in sound versus light, but decodes to identical data.</p>
+                </div>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">🔊</div>
-                <h3>Live Decoding</h3>
-                <p>Real-time audio-to-HTML conversion in the browser. Play the audio and watch your website materialize from sound waves.</p>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.9 16,12.4 16,13V16C16,17.1 15.1,18 14,18H10C8.9,18 8,17.1 8,16V13C8,12.4 8.4,11.9 9,11.5V10C9,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.2,9.2 10.2,10V11.5H13.8V10C13.8,9.2 12.8,8.2 12,8.2Z"/>
+                        </svg>
+                    </div>
+                    <h3>Natural Encryption</h3>
+                    <p>The medium itself becomes the cipher. Messages hidden in environmental fluctuations appear as natural noise to interceptors without the decoding key.</p>
+                </div>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <h3>Decentralized</h3>
-                <p>No traditional servers needed. Your website exists as audio data that can be transmitted and decoded anywhere.</p>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z"/>
+                        </svg>
+                    </div>
+                    <h3>Decentralized Hosting</h3>
+                    <p>No traditional servers needed. Websites exist as audio data, transmitted peer-to-peer through any sound-capable device or medium.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9,2V8H11V11H5C3.89,11 3,11.89 3,13V16H5V22H11V16H13V22H19V16H21V13C21,11.89 20.11,11 19,11H13V8H15V2H9M11,4H13V6H11V4Z"/>
+                        </svg>
+                    </div>
+                    <h3>AI-Enhanced Analysis</h3>
+                    <p>Advanced frequency matching with 10Hz tolerance, best match algorithms, and ChatGPT integration for guaranteed proper HTML output validation.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+                        </svg>
+                    </div>
+                    <h3>Universal Access</h3>
+                    <p>Every device can produce sound, every microphone can capture it. Protocol % works with technology that's already everywhere.</p>
+                </div>
             </div>
         </div>
-        
-        <div class="cta-section">
-            <h2>Ready to Host Your Website as Audio?</h2>
-            <p>Join the future of web hosting with HTTPMP3</p>
-            <div class="cta-buttons">
-                <a href="upload.html" class="btn btn-primary">Upload Website</a>
-                <a href="decoder.html" class="btn btn-secondary">Try Decoder</a>
-                <a href="docs.html" class="btn btn-secondary">Documentation</a>
+
+        <!-- Action Grid -->
+        <div class="action-grid">
+            <div class="action-card">
+                <div class="action-card-content">
+                    <div class="action-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                        </svg>
+                    </div>
+                    <h3>Generate Audio</h3>
+                    <p>Convert your HTML websites into audio frequencies using our advanced Protocol % encoder with AI validation.</p>
+                    <a href="generator.html" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                        Open Generator
+                    </a>
+                </div>
+            </div>
+            
+            <div class="action-card">
+                <div class="action-card-content">
+                    <div class="action-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M8,5.14V19.14L19,12.14L8,5.14Z"/>
+                        </svg>
+                    </div>
+                    <h3>Decode Audio</h3>
+                    <p>Transform audio frequencies back into websites with real-time visualization and AI-powered validation.</p>
+                    <a href="decoder.html" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M8,5.14V19.14L19,12.14L8,5.14Z"/>
+                        </svg>
+                        Open Decoder
+                    </a>
+                </div>
+            </div>
+            
+            <div class="action-card">
+                <div class="action-card-content">
+                    <div class="action-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9,17H15V15H9V17M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M21,9V7L19,8V6A2,2 0 0,0 17,4H16.5C16.3,3.8 16,3.7 15.7,3.7C15.3,3.7 15,3.8 14.8,4H9.2C9,3.8 8.7,3.7 8.3,3.7C8,3.7 7.7,3.8 7.5,4H7A2,2 0 0,0 5,6V8L3,7V9L5,10V18A2,2 0 0,0 7,20H17A2,2 0 0,0 19,18V10L21,9Z"/>
+                        </svg>
+                    </div>
+                    <h3>Analyze Frequencies</h3>
+                    <p>Explore the frequency spectrum and understand how data maps to sound with advanced FFT analysis.</p>
+                    <a href="frequency_analyzer.html" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                        </svg>
+                        Frequency Analyzer
+                    </a>
+                </div>
+            </div>
+            
+            <div class="action-card">
+                <div class="action-card-content">
+                    <div class="action-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M21,9V7L19,8V6A2,2 0 0,0 17,4H16.5C16.3,3.8 16,3.7 15.7,3.7C15.3,3.7 15,3.8 14.8,4H9.2C9,3.8 8.7,3.7 8.3,3.7C8,3.7 7.7,3.8 7.5,4H7A2,2 0 0,0 5,6V8L3,7V9L5,10V18A2,2 0 0,0 7,20H17A2,2 0 0,0 19,18V10L21,9M7,18V10H17V18H7Z"/>
+                        </svg>
+                    </div>
+                    <h3>System Tests</h3>
+                    <p>Run comprehensive tests on the Protocol % audio transmission system with AI validation checks.</p>
+                    <a href="test_system.html" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+                        </svg>
+                        System Tests
+                    </a>
+                </div>
             </div>
         </div>
-        
-        <div class="demo-section">
-            <h2>🎧 Live Demo</h2>
-            <p style="text-align: center; margin-bottom: 20px;">Experience HTTPMP3 in action - decode a website from audio frequencies</p>
-            <div style="text-align: center;">
-                <a href="production_client.html" class="btn btn-primary">Launch Live Decoder</a>
+
+        <!-- Philosophy Section -->
+        <section id="philosophy" class="philosophy">
+            <div class="philosophy-content">
+                <h2>The Philosophy</h2>
+                <p class="philosophy-quote">
+                    "Communication through what's already universal."
+                </p>
+                <div class="philosophy-text">
+                    <p>
+                        Protocol % is born from curiosity and experimentation. It's not a commercial product or polished standard — 
+                        it's a playful exploration of how messages might travel through the universe itself.
+                    </p>
+                    <p>
+                        Instead of building new infrastructure, we encode meaning into elements already around us. 
+                        If the medium shifts, the message shape-shifts too — but the values remain intact.
+                    </p>
+                    <p>
+                        This is about testing boundaries, not solving global problems. Can we build a protocol that uses 
+                        nature itself as the carrier? Protocol % says yes.
+                    </p>
+                </div>
             </div>
-        </div>
-        
-        <div class="footer">
-            <p>&copy; 2026 HTTPMP3 - Audio Web Hosting Platform | Protocol % Technology</p>
-        </div>
+        </section>
     </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Protocol % - Communication Through What's Already Universal</p>
+            <p>
+                HTTPMP3 Phase Two Research | 
+                <a href="https://github.com/nia-cloud-official/httpmp3" target="_blank">GitHub Repository</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections
+        document.querySelectorAll('.card, .action-card, .httpmp3-section, .philosophy').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>

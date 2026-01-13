@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Protocol % - Complete Documentation</title>
+    <link rel="stylesheet" href="shared-styles.css">
+    <style>
+        .main-content {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 24px;
+        }
+
+        .publication-info {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .publication-info h3 {
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .publication-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .doc-nav {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .doc-nav h3 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 12px 16px;
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            color: var(--text-primary);
+        }
+
+        .doc-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .subsection-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 32px 0 16px 0;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--card-border);
+            padding-bottom: 8px;
+        }
+
+        .doc-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .doc-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .highlight-box h4 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .code-block {
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 24px 0;
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .code-block .comment {
+            color: #6a9955;
+        }
+
+        .code-block .keyword {
+            color: #569cd6;
+        }
+
+        .code-block .string {
+            color: #ce9178;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .pillar-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .pillar-card:hover {
+            border-color: rgba(102, 126, 234, 0.3);
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .pillar-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .pillar-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .example-box {
+            background: rgba(67, 233, 123, 0.1);
+            border: 1px solid rgba(67, 233, 123, 0.3);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .example-box h4 {
+            color: #43e97b;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+
+        .steps-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .steps-list li {
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .steps-list li::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            background: var(--primary-gradient);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .steps-list {
+            counter-reset: step-counter;
+        }
+
+        .roadmap-phase {
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 20px 0;
+            border-left: 4px solid;
+        }
+
+        .roadmap-phase.phase-1 { border-left-color: #667eea; }
+        .roadmap-phase.phase-2 { border-left-color: #f093fb; }
+        .roadmap-phase.phase-3 { border-left-color: #4facfe; }
+        .roadmap-phase.phase-4 { border-left-color: #43e97b; }
+        .roadmap-phase.phase-5 { border-left-color: #fee140; }
+
+        .roadmap-phase h4 {
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .roadmap-phase ul {
+            color: var(--text-secondary);
+            margin-left: 20px;
+        }
+
+        .roadmap-phase li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .author-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .author-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+        }
+
+        .author-section p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .subsection-title {
+                font-size: 1.5rem;
+            }
+            
+            .doc-nav {
+                position: static;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <div class="logo">Protocol %</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="generator.html">Generator</a></li>
+                <li><a href="decoder.html">Decoder</a></li>
+                <li><a href="frequency_analyzer.html">Analyzer</a></li>
+                <li><a href="about.html">About</a></li>
+                <li>
+                    <a href="https://github.com/nia-cloud-official/httpmp3" target="_blank" class="btn-github">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Protocol %</h1>
+                <p class="page-subtitle">
+                    Complete Documentation: Communication Through What's Already Universal
+                </p>
+                <div class="publication-info">
+                    <h3>Publication Information</h3>
+                    <p><strong>Published:</strong> 2026-01-08</p>
+                    <p><strong>Author:</strong> Milton Vafana</p>
+                    <p><strong>Version:</strong> Complete Documentation</p>
+                    <p><strong>Status:</strong> Experimental Research</p>
+                </div>
+            </div>
+
+            <!-- Document Navigation -->
+            <div class="doc-nav">
+                <h3>Document Navigation</h3>
+                <div class="nav-grid">
+                    <a href="#introduction" class="nav-item">Introduction</a>
+                    <a href="#philosophy" class="nav-item">Philosophy</a>
+                    <a href="#httpmp3" class="nav-item">HTTPMP3 Phase Two</a>
+                    <a href="#encryption" class="nav-item">Encryption Potential</a>
+                    <a href="#sound-channel" class="nav-item">Sound Channel</a>
+                    <a href="#sender-code" class="nav-item">Sender Code</a>
+                    <a href="#receiver-code" class="nav-item">Receiver Code</a>
+                    <a href="#natural-carriers" class="nav-item">Natural Carriers</a>
+                    <a href="#limitations" class="nav-item">Limitations</a>
+                    <a href="#roadmap" class="nav-item">Roadmap</a>
+                    <a href="#ultimate-goal" class="nav-item">Ultimate Goal</a>
+                </div>
+            </div>
+
+            <!-- Introduction Section -->
+            <section id="introduction" class="doc-section">
+                <h2 class="section-title">Introduction</h2>
+                
+                <p class="doc-text">
+                    <strong>Protocol %</strong> is an experimental project that challenges the very foundations of how communication is understood. It is not a polished standard, nor a commercial product, but rather a living exploration of whether messages can travel through the universe without relying on traditional infrastructures like cables, satellites, or cellular networks.
+                </p>
+
+                <div class="highlight-box">
+                    <h4>Core Principle</h4>
+                    <p>The guiding philosophy is simple yet profound: <strong>communication through what's already universal</strong>.</p>
+                </div>
+
+                <p class="doc-text">
+                    At its heart, Protocol % asks: <em>what if communication could ride on the elements themselves?</em> Instead of being bound to fragile systems that collapse in disasters, war zones, or rural isolation, messages could be encoded into sound, light, heat, vibration, or any natural fluctuation.
+                </p>
+
+                <p class="doc-text">
+                    If the medium shifts, the message shapeshifts too, but the values remain intact. This means that a message expressed as a series of beeps could just as easily be carried by torch flashes, smoke signals, or knocks on a wall — the framing and values stay consistent, even as the carrier changes.
+                </p>
+
+                <h3 class="subsection-title">The Genesis Experiment</h3>
+                
+                <p class="doc-text">
+                    The project began with a simple experiment: <strong>the sound channel</strong>. Short beeps represented 1, silence represented 0, and the gaps between bursts encoded binary values. This prototype demonstrated that messages could be framed, sent, and decoded without any network connection.
+                </p>
+
+                <p class="doc-text">
+                    It was never meant to define Protocol %, only to prove that the concept of framing and decoding could work in practice. From there, the vision expanded to other natural carriers: torches uncovered to flash signals, mirrors reflecting sunlight, smoke puffs rising in sequence, or vibrations tapped out on surfaces.
+                </p>
+
+                <div class="example-box">
+                    <h4>Vision in Practice</h4>
+                    <p>A message begins as claps in a room, becomes torch flashes across a valley, transforms into smoke puffs on a hilltop, and ends as knocks in a bunker. The payload remains intact, framed by %ID%...%, verified by repetition and parity. The medium changes, but the meaning survives.</p>
+                </div>
+            </section>
+
+            <!-- Philosophy Section -->
+            <section id="philosophy" class="doc-section">
+                <h2 class="section-title">Philosophy Recap</h2>
+                <h3 class="subsection-title">Communication Through What's Already Universal</h3>
+
+                <p class="doc-text">
+                    The philosophy of Protocol % is the foundation that makes the project unique. It is not about building faster networks or competing with existing communication systems. Instead, it is about asking a deeper question: <strong>what if communication could exist without infrastructure at all?</strong>
+                </p>
+
+                <p class="doc-text">
+                    At its core, Protocol % is built on the principle of <strong>universality</strong>. Every environment already contains carriers — sound waves, light, heat, vibration, even subtle changes in pressure or rhythm. These carriers are not owned by corporations, not dependent on electricity grids, and not limited to specific devices. They are simply there, waiting to be harnessed.
+                </p>
+
+                <h3 class="subsection-title">Key Philosophical Pillars</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Medium Agnostic</h4>
+                        <p>Protocol % does not tie itself to one channel. Whether it is a clap, a torch flash, a puff of smoke, or a vibration on a wall, the rules of framing and encoding remain the same.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Shapeshifting Values</h4>
+                        <p>The message adapts to the medium. A binary 0 might be a short pause in sound, a short flash of light, or a quick knock. A binary 1 might be a longer pause, a longer flash, or a heavier knock. The physical form changes, but the value is preserved.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Resilience Through Simplicity</h4>
+                        <p>Because the rules are simple — short vs long, on vs off — they can survive noise, chaos, and disruption. Even if one carrier fails, another can be used.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Human Accessibility</h4>
+                        <p>Protocol % is designed so that even without technology, humans themselves can encode and decode messages. This makes it possible to communicate in environments stripped of devices.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Playful Experimentation</h4>
+                        <p>Above all, Protocol % is a project for fun and exploration. It is about pushing boundaries, testing ideas, and seeing how far communication can stretch when freed from conventional limits.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Why This Matters</h3>
+
+                <p class="doc-text">
+                    The philosophy is not about replacing the internet or building a new telecom system. It is about proving that communication can be <strong>elemental</strong>, <strong>universal</strong>, and <strong>independent</strong>. It is about showing that meaning can survive even when the medium changes.
+                </p>
+
+                <p class="doc-text">
+                    Protocol % is therefore both a technical experiment and a philosophical statement: <em>communication is not owned, not confined, and not fragile. It is a property of the universe itself.</em>
+                </p>
+            </section>
+
+            <!-- HTTPMP3 Phase Two Section -->
+            <section id="httpmp3" class="doc-section">
+                <h2 class="section-title">Protocol % Research: Phase Two — HTTPMP3</h2>
+                <h3 class="subsection-title">Hosting the Web Through Sound</h3>
+
+                <p class="doc-text">
+                    <strong>HTTPMP3</strong> is the second phase of Protocol % research: a revolutionary web hosting platform that converts HTML into audio frequencies. A website becomes a sound file, capable of traveling anywhere sound can reach — through speakers, radio waves, phone calls, or even acoustic air.
+                </p>
+
+                <p class="doc-text">
+                    The decoder listens, analyzes the waveform, and reconstructs the site in real time. This represents the practical implementation of Protocol %'s philosophy: communication through what's already universal.
+                </p>
+
+                <div class="highlight-box">
+                    <h4>Core Innovation</h4>
+                    <p>HTTPMP3 proves that sound can act as a true hosting layer. Websites are no longer tied to conventional servers — they can be transmitted, shared, and reconstructed entirely through audio.</p>
+                </div>
+
+                <h3 class="subsection-title">What the Experiment Shows</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Audio Protocol Engine</h4>
+                        <p>HTML mapped to frequencies, exported as WAV/MP3, with advanced error correction and robust frequency matching algorithms.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Universal Transmission</h4>
+                        <p>Works over speakers, radio, phone lines, or direct acoustic sharing. Any medium that can carry sound can host websites.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Live Decoding</h4>
+                        <p>Real-time FFT analysis, spectrogram visualization, progressive rendering. Watch HTML materialize from sound waves.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Decentralized Hosting</h4>
+                        <p>No traditional servers; websites exist as audio data, peer-to-peer. Broadcast like songs, hidden in podcasts, shared offline.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Why Sound for Web Hosting?</h3>
+
+                <p class="doc-text">
+                    Sound is <strong>universal</strong>. Every device can produce it, every microphone can capture it, and every human can perceive it. By using sound as the carrier, Protocol % demonstrates hosting that is:
+                </p>
+
+                <div class="example-box">
+                    <h4>Sound's Universal Properties</h4>
+                    <ul>
+                        <li><strong>Legally clean:</strong> No copyright issues with transmitting websites as audio</li>
+                        <li><strong>Universally accessible:</strong> Works on any device with speakers/microphone</li>
+                        <li><strong>Auditable:</strong> You can literally hear the data being transmitted</li>
+                        <li><strong>Offline capable:</strong> Share websites without internet connection</li>
+                        <li><strong>Medium agnostic:</strong> Radio, phone, direct acoustic transmission all work</li>
+                    </ul>
+                </div>
+
+                <p class="doc-text">
+                    A simple audio file can carry the full structure of a website. That's not theory — it's a working system demonstrated by the HTTPMP3 platform.
+                </p>
+
+                <h3 class="subsection-title">Technical Implementation</h3>
+
+                <p class="doc-text">
+                    HTTPMP3 uses advanced frequency mapping to encode HTML characters into specific audio frequencies:
+                </p>
+
+                <div class="code-block">
+                    <pre><code><span class="comment">// HTTPMP3 Frequency Mapping</span>
+<span class="keyword">function</span> getCharFrequency(char) {
+    <span class="keyword">const</span> ascii = char.charCodeAt(0);
+    <span class="keyword">if</span> (ascii >= 32 && ascii <= 126) {
+        <span class="comment">// Base frequency 600Hz + (ASCII - 32) × 15Hz</span>
+        <span class="comment">// Range: 600Hz to 2010Hz for 95 printable ASCII chars</span>
+        <span class="keyword">return</span> 600 + (ascii - 32) * 15;
+    }
+    <span class="keyword">return</span> null;
+}
+
+<span class="comment">// Enhanced frequency matching with 10Hz tolerance</span>
+<span class="keyword">function</span> robustFrequencyMatching(detectedFreq) {
+    <span class="keyword">let</span> bestMatch = null;
+    <span class="keyword">let</span> bestDistance = Infinity;
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> ascii = 32; ascii <= 126; ascii++) {
+        <span class="keyword">const</span> expectedFreq = 600 + (ascii - 32) * 15;
+        <span class="keyword">const</span> distance = Math.abs(detectedFreq - expectedFreq);
+        
+        <span class="keyword">if</span> (distance < bestDistance && distance <= 10) {
+            bestDistance = distance;
+            bestMatch = String.fromCharCode(ascii);
+        }
+    }
+    
+    <span class="keyword">return</span> bestMatch;
+}</code></pre>
+                </div>
+
+                <h3 class="subsection-title">Transparency and Auditability</h3>
+
+                <p class="doc-text">
+                    The HTTPMP3 demo includes comprehensive visualization tools to make the encoding process completely transparent:
+                </p>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Waveform Graphs</h4>
+                        <p>Visual representation showing exactly where HTML data is embedded in the audio stream, with time-based analysis.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Spectrograms</h4>
+                        <p>Frequency domain visualization mapping specific frequencies to HTML tags and content for complete auditability.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Live Preview</h4>
+                        <p>Watch the HTML page materialize from sound in real time as the decoder processes each frequency.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Mini Translator</h4>
+                        <p>Step-by-step decoding process: raw sound → detected frequencies → mapped characters → reconstructed HTML.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">AI-Enhanced Decoding</h3>
+
+                <p class="doc-text">
+                    HTTPMP3 incorporates advanced AI validation to ensure perfect HTML reconstruction:
+                </p>
+
+                <div class="highlight-box">
+                    <h4>Robust Frequency Matching Features</h4>
+                    <ul>
+                        <li><strong>10Hz Tolerance:</strong> Instead of simple rounding, finds closest valid character frequency within 10Hz tolerance</li>
+                        <li><strong>Best Match Algorithm:</strong> Compares detected frequency against ALL possible character frequencies and picks the closest</li>
+                        <li><strong>Proper Tolerance:</strong> Only accepts matches within 10Hz (much more reliable than previous 15Hz step assumption)</li>
+                        <li><strong>No Post-Processing:</strong> Frequency detection is accurate enough that no character corrections are needed</li>
+                        <li><strong>ChatGPT Integration:</strong> AI validates and corrects decoded HTML for guaranteed proper output</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4>Enhanced Algorithm Examples</h4>
+                    <ul>
+                        <li>Detect 1035Hz → find closest match is 1020Hz → return '<'</li>
+                        <li>Detect 1695Hz → find closest match is 1680Hz → return 'h'</li>
+                        <li>Detect 840Hz → find closest match is 855Hz → return '1'</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Real-World Applications</h3>
+
+                <p class="doc-text">
+                    HTTPMP3 opens up entirely new possibilities for web hosting and content distribution:
+                </p>
+
+                <div class="example-box">
+                    <h4>Use Cases</h4>
+                    <ul>
+                        <li><strong>Disaster Communication:</strong> Share emergency websites via radio when internet is down</li>
+                        <li><strong>Censorship Resistance:</strong> Websites hidden in music files or podcast audio</li>
+                        <li><strong>Offline Sharing:</strong> Pass websites person-to-person via audio files</li>
+                        <li><strong>Educational Content:</strong> Distribute learning materials via any audio medium</li>
+                        <li><strong>Art Projects:</strong> Websites that exist as musical compositions</li>
+                        <li><strong>Privacy:</strong> No server logs, no tracking, no central authority</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Next Steps: Phase Three</h3>
+
+                <p class="doc-text">
+                    Phase Three of Protocol % research will explore even more advanced implementations:
+                </p>
+
+                <div class="roadmap-phase phase-3">
+                    <h4>Phase Three Roadmap</h4>
+                    <ul>
+                        <li><strong>Continuous Tones:</strong> Moving from beeps to continuous tones and songs as carriers</li>
+                        <li><strong>Ultrasonic Mode:</strong> Implementing ultrasonic frequencies for invisible communication</li>
+                        <li><strong>Multi-user Channels:</strong> Different frequency bands for different clients simultaneously</li>
+                        <li><strong>Advanced Error Correction:</strong> Reed-Solomon codes and compression for efficiency</li>
+                        <li><strong>Steganography:</strong> Hiding websites inside existing music without detection</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Open Source and Community</h3>
+
+                <p class="doc-text">
+                    The HTTPMP3 project is completely open source and available for exploration, testing, and contribution. The full implementation demonstrates that Protocol %'s philosophy works in practice.
+                </p>
+
+                <div class="highlight-box">
+                    <h4>Project Resources</h4>
+                    <p><strong>GitHub Repository:</strong> <a href="https://github.com/nia-cloud-official/httpmp3" target="_blank" style="color: #4facfe;">HTTPMP3 (github.com/nia-cloud-official/httpmp3)</a></p>
+                    <p>Complete source code, documentation, examples, and live demos available for the community to build upon.</p>
+                </div>
+
+                <div class="example-box">
+                    <h4>Closing Thought</h4>
+                    <p>Phase Two of Protocol % research demonstrates that sound can act as a true hosting layer. With HTTPMP3, websites are no longer tied to conventional servers — they can be transmitted, shared, and reconstructed entirely through audio. This experiment proves the philosophy in practice: <strong>communication can flow through universals, not infrastructure</strong>.</p>
+                </div>
+            </section>
+
+            <!-- Encryption Potential Section -->
+            <section id="encryption" class="doc-section">
+                <h2 class="section-title">Encryption Potential</h2>
+
+                <p class="doc-text">
+                    One of the most intriguing aspects of Protocol % is its ability to function as an <strong>encryption method</strong>. Unlike traditional cryptography, which relies on mathematical transformations of data, Protocol % uses the medium itself as the cipher.
+                </p>
+
+                <p class="doc-text">
+                    This means that the rules of encoding and decoding are tied directly to the physical properties of the carrier — sound, light, heat, vibration — rather than abstract algorithms alone.
+                </p>
+
+                <h3 class="subsection-title">How the Medium Becomes the Cipher</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Carrier-dependent Encoding</h4>
+                        <p>The same binary message looks different depending on the medium. A 0 might be a short clap in sound, a short torch flash in light, or a quick knock in vibration. A 1 might be a longer pause, flash, or knock.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Dynamic Keys</h4>
+                        <p>The parameters of the medium — frequency, duration, intensity — act as keys. Without knowing the exact mapping, an interceptor only perceives noise.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Hidden in Plain Sight</h4>
+                        <p>Messages blend into natural fluctuations. A sequence of claps or torch flashes can look like random activity unless the observer knows the framing rules.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Obfuscation Through Dummy Signals</h4>
+                        <p>Extra signals can be inserted to mask the true payload. Random claps or flashes that do not correspond to bits make decoding impossible without the proper key.</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h4>Example: Sound Channel Encryption</h4>
+                    <ol class="steps-list">
+                        <li><strong>Message:</strong> HELLO</li>
+                        <li><strong>ASCII → Binary:</strong> 01001000 01000101 01001100 01001100 01001111</li>
+                        <li><strong>Mapping:</strong> Short beep = 0, Long beep = 1</li>
+                        <li><strong>Encryption layer:</strong> Add dummy beeps or vary frequency slightly to disguise the pattern</li>
+                        <li><strong>Decryption:</strong> Only a receiver tuned to the exact rules can reconstruct the original message</li>
+                    </ol>
+                </div>
+
+                <h3 class="subsection-title">Strengths and Weaknesses</h3>
+
+                <div class="highlight-box">
+                    <h4>Strengths</h4>
+                    <ul>
+                        <li><strong>Medium diversity:</strong> Because the protocol can shapeshift across carriers, interception requires knowledge of both the medium and the encoding rules</li>
+                        <li><strong>Environmental camouflage:</strong> Signals can be disguised as natural phenomena — claps in a crowd, torch flashes at night, smoke puffs in a campfire</li>
+                        <li><strong>Flexibility:</strong> The encryption layer can be adjusted dynamically by changing parameters like timing thresholds or intensity levels</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4>Weaknesses</h4>
+                    <ul>
+                        <li><strong>Low throughput:</strong> Natural carriers are slow compared to digital encryption methods</li>
+                        <li><strong>Noise sensitivity:</strong> Environmental interference can corrupt signals</li>
+                        <li><strong>Human error:</strong> In manual encoding, mistakes can easily occur</li>
+                    </ul>
+                </div>
+
+                <p class="doc-text">
+                    Despite these limitations, the encryption potential of Protocol % is part of its charm. It demonstrates that communication can be both <strong>elemental and secure</strong>, riding on the universe itself while hiding meaning in plain sight.
+                </p>
+            </section>
+            <!-- Sound Channel Section -->
+            <section id="sound-channel" class="doc-section">
+                <h2 class="section-title">First Experimental Channel (Sound)</h2>
+
+                <p class="doc-text">
+                    The sound channel was the very first experiment for Protocol %, chosen because it is <strong>accessible</strong>, <strong>easy to generate</strong>, and <strong>simple to detect</strong>. It provided a practical sandbox to test the framing and decoding rules of the protocol without requiring specialized equipment.
+                </p>
+
+                <h3 class="subsection-title">Why Sound?</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Universality</h4>
+                        <p>Every environment has sound. Humans can produce it with claps, whistles, drums, or voices, and devices can generate it with speakers.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Ease of Detection</h4>
+                        <p>Microphones, human ears, or even vibration sensors can pick up sound signals.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Immediate Feedback</h4>
+                        <p>Sound is tangible and audible, making it ideal for early experimentation.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Encoding Rules</h3>
+
+                <div class="highlight-box">
+                    <h4>Basic Sound Channel Mapping</h4>
+                    <ul>
+                        <li><strong>Beep = 1</strong></li>
+                        <li><strong>Silence = 0</strong></li>
+                        <li><strong>Gap length:</strong> Short gap (~500 ms) represents 0, long gap (~1500 ms) represents 1</li>
+                        <li><strong>Framing:</strong> Messages are wrapped in %ID%...% to mark start and end</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Demo Concept</h3>
+
+                <ol class="steps-list">
+                    <li><strong>Sender:</strong> Generate short audio tones (beeps)</li>
+                    <li><strong>Transmission:</strong> Play tones through speakers</li>
+                    <li><strong>Receiver:</strong> Listen for tones, measure gaps, classify them as 0 or 1, reconstruct the binary stream, and decode into ASCII text</li>
+                </ol>
+
+                <div class="example-box">
+                    <h4>Example Transmission</h4>
+                    <p><strong>Message:</strong> %1234%HI%</p>
+                    <ul>
+                        <li><strong>ASCII → Binary:</strong> 01001000 01001001</li>
+                        <li><strong>Encoded as:</strong> Beep + short gap (0), Beep + long gap (1), repeated until the message is complete</li>
+                        <li><strong>Receiver decodes:</strong> The binary back into text: %1234%HI%</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">Strengths and Weaknesses</h3>
+
+                <div class="highlight-box">
+                    <h4>Strengths</h4>
+                    <ul>
+                        <li><strong>Simple to implement:</strong> Easy to prototype with PHP scripts or browser-based audio</li>
+                        <li><strong>Human-readable:</strong> People can literally hear the message being transmitted</li>
+                        <li><strong>Proof of concept:</strong> Demonstrates that framing and decoding rules work in practice</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4>Weaknesses</h4>
+                    <ul>
+                        <li><strong>Range:</strong> Limited to the distance sound can travel</li>
+                        <li><strong>Noise interference:</strong> Background sounds can corrupt signals</li>
+                        <li><strong>Speed:</strong> Slow throughput — only a few characters per minute</li>
+                    </ul>
+                </div>
+
+                <p class="doc-text">
+                    Despite these limitations, the sound channel was a crucial first step. It proved that Protocol % could encode, transmit, and decode messages without relying on conventional networks. It also laid the foundation for experimenting with other carriers like light, heat, and vibration.
+                </p>
+            </section>
+
+            <!-- Sender Code Section -->
+            <section id="sender-code" class="doc-section">
+                <h2 class="section-title">Sound Channel Sender Code Example</h2>
+
+                <p class="doc-text">
+                    The sound channel prototype was the first working demonstration of Protocol %. To make it practical, a simple PHP script was written to generate a WAV file containing beeps for binary 1s and silence for binary 0s.
+                </p>
+
+                <p class="doc-text">
+                    This allowed messages to be encoded into audio and played through speakers, proving that the protocol could ride on sound as a carrier.
+                </p>
+
+                <h3 class="subsection-title">Purpose of the Sender Script</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Encoding</h4>
+                        <p>Convert a text message into binary representation</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Mapping</h4>
+                        <p>Represent 1 as a beep and 0 as silence</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Framing</h4>
+                        <p>Wrap the message in %ID%...% markers to define start and end</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Output</h4>
+                        <p>Generate a WAV file that can be played on any device</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Full PHP Implementation</h3>
+
+                <div class="code-block">
+                    <pre><code><span class="comment">// Protocol % Sound Channel Sender</span>
+<span class="comment">// Converts a text message into binary beeps and silence</span>
+
+<span class="keyword">function</span> text_to_bits($text) {
+    $bits = <span class="string">""</span>;
+    <span class="keyword">for</span> ($i = 0; $i < strlen($text); $i++) {
+        $bits .= str_pad(decbin(ord($text[$i])), 8, <span class="string">"0"</span>, STR_PAD_LEFT);
+    }
+    <span class="keyword">return</span> $bits;
+}
+
+<span class="keyword">function</span> wav_from_bits($bits, $hz = 1000, $pulse = 0.18, $gap0 = 0.50, $gap1 = 1.50, $sr = 8000) {
+    $pcm = <span class="string">""</span>;
+    $twoPi = 2 * M_PI;
+    $amp = 0.9;
+    
+    $tone = <span class="keyword">function</span>($secs) <span class="keyword">use</span>($sr, $hz, $twoPi, $amp, &$pcm) {
+        <span class="keyword">for</span> ($i = 0; $i < $sr * $secs; $i++) {
+            $val = sin($twoPi * $hz * ($i / $sr)) * $amp;
+            $pcm .= pack(<span class="string">"v"</span>, (int)($val * 32767));
+        }
+    };
+    
+    $silence = <span class="keyword">function</span>($secs) <span class="keyword">use</span>($sr, &$pcm) {
+        <span class="keyword">for</span> ($i = 0; $i < $sr * $secs; $i++) {
+            $pcm .= pack(<span class="string">"v"</span>, 0);
+        }
+    };
+    
+    <span class="comment">// Preamble for synchronization</span>
+    $tone(0.18); $silence(0.20); $tone(0.18);
+    
+    <span class="keyword">foreach</span> (str_split($bits) <span class="keyword">as</span> $b) {
+        $tone($pulse);
+        $silence($b === <span class="string">"0"</span> ? $gap0 : $gap1);
+    }
+    
+    $dataLen = strlen($pcm);
+    $hdr = <span class="string">"RIFF"</span> . pack(<span class="string">"V"</span>, 36 + $dataLen) . <span class="string">"WAVEfmt "</span> . pack(<span class="string">"V"</span>, 16) . pack(<span class="string">"v"</span>, 1) . pack(<span class="string">"v"</span>, 1)
+         . pack(<span class="string">"V"</span>, $sr) . pack(<span class="string">"V"</span>, $sr * 2) . pack(<span class="string">"v"</span>, 2) . pack(<span class="string">"v"</span>, 16) . <span class="string">"data"</span> . pack(<span class="string">"V"</span>, $dataLen);
+    
+    <span class="keyword">return</span> $hdr . $pcm;
+}
+
+<span class="comment">// Example message</span>
+$message = <span class="string">"%1234%HI%"</span>;
+$bits = text_to_bits($message);
+file_put_contents(<span class="string">"protocol_percent.wav"</span>, wav_from_bits($bits));
+echo <span class="string">"WAV file generated: protocol_percent.wav\n"</span>;</code></pre>
+                </div>
+
+                <h3 class="subsection-title">How It Works</h3>
+
+                <ol class="steps-list">
+                    <li><strong>Text to Binary:</strong> Each character is converted into its ASCII binary representation</li>
+                    <li><strong>Binary to Audio:</strong> Each bit is mapped to a beep (1) or silence (0)</li>
+                    <li><strong>Framing:</strong> %1234%HI% ensures the receiver knows where the message begins and ends</li>
+                    <li><strong>Output:</strong> A WAV file is created that can be played on any device with speakers</li>
+                </ol>
+
+                <div class="highlight-box">
+                    <h4>Why This Matters</h4>
+                    <p>This sender script is the first tangible proof that Protocol % can encode and transmit messages using natural carriers. It shows that even with basic tools, communication can be framed, transmitted, and decoded without relying on conventional networks.</p>
+                </div>
+            </section>
+
+            <!-- Receiver Code Section -->
+            <section id="receiver-code" class="doc-section">
+                <h2 class="section-title">Sound Channel Receiver Code Example</h2>
+
+                <p class="doc-text">
+                    The receiver is the counterpart to the sender in the sound channel experiment. Its purpose is to listen for audio signals, detect beeps, measure the gaps between them, and reconstruct the original binary message.
+                </p>
+
+                <p class="doc-text">
+                    Once the binary stream is collected, it can be converted back into ASCII text, revealing the transmitted payload.
+                </p>
+
+                <h3 class="subsection-title">Purpose of the Receiver</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Detection</h4>
+                        <p>Identify when a beep occurs in the audio stream</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Measurement</h4>
+                        <p>Calculate the time gap between consecutive beeps</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Classification</h4>
+                        <p>Short gap = 0, long gap = 1</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Reconstruction</h4>
+                        <p>Build a binary string from the sequence of gaps and convert to ASCII</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Conceptual PHP Implementation</h3>
+
+                <div class="code-block">
+                    <pre><code><span class="comment">// Protocol % Sound Channel Receiver (Conceptual)</span>
+<span class="comment">// Pseudo-code for detecting beeps and reconstructing message</span>
+
+$bits = <span class="string">""</span>;
+
+<span class="keyword">while</span> (true) {
+    $gap = measure_gap(); <span class="comment">// function to measure time between beeps</span>
+    
+    <span class="keyword">if</span> ($gap < 700) {
+        $bits .= <span class="string">"0"</span>;
+    } <span class="keyword">else</span> {
+        $bits .= <span class="string">"1"</span>;
+    }
+    
+    echo <span class="string">"Bits so far: $bits\n"</span>;
+    
+    <span class="comment">// Once 8 bits are collected, convert to ASCII</span>
+    <span class="keyword">if</span> (strlen($bits) % 8 == 0) {
+        $char = chr(bindec(substr($bits, -8)));
+        echo <span class="string">"Decoded character: $char\n"</span>;
+    }
+}</code></pre>
+                </div>
+
+                <h3 class="subsection-title">How It Works</h3>
+
+                <ol class="steps-list">
+                    <li><strong>Listening:</strong> The script continuously monitors audio input</li>
+                    <li><strong>Gap Measurement:</strong> Each time a beep is detected, the time since the last beep is measured</li>
+                    <li><strong>Bit Classification:</strong> Gap < 700 ms → 0, Gap ≥ 700 ms → 1</li>
+                    <li><strong>Binary Stream:</strong> Bits are appended to a growing string</li>
+                    <li><strong>ASCII Conversion:</strong> Every 8 bits are grouped and converted into a character</li>
+                    <li><strong>Message Reconstruction:</strong> The full message emerges as characters are decoded</li>
+                </ol>
+
+                <h3 class="subsection-title">Challenges</h3>
+
+                <div class="example-box">
+                    <h4>Implementation Challenges</h4>
+                    <ul>
+                        <li><strong>Noise sensitivity:</strong> Background sounds can cause false detections</li>
+                        <li><strong>Precision:</strong> Accurate timing is critical; small errors can flip bits</li>
+                        <li><strong>Error correction:</strong> Without redundancy, corrupted signals may produce incorrect characters</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Why This Matters</h4>
+                    <p>The receiver demonstrates that Protocol % can reconstruct meaning from elemental signals. Even though the implementation is simplified, it proves the concept: messages can be encoded, transmitted, and decoded using nothing more than sound and timing rules.</p>
+                </div>
+            </section>
+            <!-- Natural Carriers Section -->
+            <section id="natural-carriers" class="doc-section">
+                <h2 class="section-title">Natural Carriers</h2>
+
+                <p class="doc-text">
+                    While the sound channel was the first experiment, Protocol % was never meant to be limited to audio. The philosophy insists that communication should ride on whatever carriers are already present in the environment.
+                </p>
+
+                <p class="doc-text">
+                    This means that messages can shapeshift into <strong>light</strong>, <strong>heat</strong>, <strong>smoke</strong>, <strong>vibration</strong>, or <strong>touch</strong> — each medium offering unique possibilities and challenges.
+                </p>
+
+                <h3 class="subsection-title">Carrier Types and Implementations</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>1. Sound (Human Voice, Rhythm, Instruments)</h4>
+                        <p><strong>Encoding:</strong> Short pause = 0, long pause = 1</p>
+                        <p><strong>Carriers:</strong> Claps, whistles, drum beats, chants</p>
+                        <p><strong>Strengths:</strong> Universally accessible, requires no tools</p>
+                        <p><strong>Weaknesses:</strong> Limited range, vulnerable to noise</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>2. Light (Fire, Reflection, Shadow)</h4>
+                        <p><strong>Encoding:</strong> Short flash = 0, long flash = 1</p>
+                        <p><strong>Carriers:</strong> Torches, lanterns, campfires, mirrors reflecting sunlight</p>
+                        <p><strong>Strengths:</strong> Effective over long distances with line-of-sight</p>
+                        <p><strong>Weaknesses:</strong> Requires visibility, fails in fog or daylight glare</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>3. Heat / Smoke</h4>
+                        <p><strong>Encoding:</strong> Short puff = 0, long puff = 1</p>
+                        <p><strong>Carriers:</strong> Controlled smoke signals, steam bursts, fire smoke</p>
+                        <p><strong>Strengths:</strong> Historically proven (smoke signals across valleys)</p>
+                        <p><strong>Weaknesses:</strong> Slow, weather-dependent, limited precision</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>4. Vibration / Touch</h4>
+                        <p><strong>Encoding:</strong> Short knock = 0, long knock = 1</p>
+                        <p><strong>Carriers:</strong> Knocking on walls, tapping pipes, stomping floors</p>
+                        <p><strong>Strengths:</strong> Useful in enclosed spaces (caves, bunkers, collapsed buildings)</p>
+                        <p><strong>Weaknesses:</strong> Very short range, easily distorted</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">Framing and Integrity</h3>
+
+                <p class="doc-text">
+                    Regardless of the medium, Protocol % uses <strong>consistent framing</strong> to ensure message integrity and proper decoding:
+                </p>
+
+                <div class="highlight-box">
+                    <h4>Universal Framing Structure</h4>
+                    <ul>
+                        <li><strong>Start marker:</strong> %ID% identifies sender and message start</li>
+                        <li><strong>Payload:</strong> Encoded bits carried by the chosen medium</li>
+                        <li><strong>End marker:</strong> % signals completion</li>
+                        <li><strong>Repetition:</strong> Messages are repeated multiple times to ensure accuracy</li>
+                        <li><strong>Parity word:</strong> A check word (like "END") confirms completeness</li>
+                    </ul>
+                </div>
+
+                <div class="example-box">
+                    <h4>Cross-Medium Example</h4>
+                    <p><strong>Message:</strong> "HI"</p>
+                    <p><strong>Sound:</strong> Clap-pause-clap (short) clap-pause-clap (long) = 01001000 01001001</p>
+                    <p><strong>Light:</strong> Flash-dark-flash (short) flash-dark-flash (long) = 01001000 01001001</p>
+                    <p><strong>Vibration:</strong> Knock-pause-knock (short) knock-pause-knock (long) = 01001000 01001001</p>
+                    <p>Same binary values, different physical manifestation.</p>
+                </div>
+
+                <h3 class="subsection-title">Why Natural Carriers Matter</h3>
+
+                <p class="doc-text">
+                    Natural carriers prove that Protocol % can exist even in environments stripped of technology. In disaster zones, rural areas, or places with no devices, <strong>humans themselves can act as transmitters and receivers</strong>.
+                </p>
+
+                <p class="doc-text">
+                    This makes the protocol not just a technical experiment, but a demonstration of how communication can survive in its most elemental form. It transforms communication from a service into a fundamental human capability.
+                </p>
+            </section>
+
+            <!-- Limitations Section -->
+            <section id="limitations" class="doc-section">
+                <h2 class="section-title">Limitations and Challenges</h2>
+
+                <p class="doc-text">
+                    While Protocol % is a fascinating experiment, it comes with significant limitations that must be acknowledged. These challenges are not failures; they are part of the exploration, shaping how the project evolves and what boundaries it can realistically push.
+                </p>
+
+                <h3 class="subsection-title">1. Range Limitations</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Sound</h4>
+                        <p>Limited to the distance human ears or microphones can detect. Noise and obstacles reduce effectiveness significantly.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Light</h4>
+                        <p>Requires line-of-sight. Works well across valleys or rooftops but fails in fog, rain, or daylight glare.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Heat/Smoke</h4>
+                        <p>Slow and weather-dependent. Wind disperses signals, reducing reliability and precision.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Vibration/Touch</h4>
+                        <p>Extremely short range, confined to enclosed spaces like walls or pipes.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">2. Speed Constraints</h3>
+
+                <p class="doc-text">
+                    Natural carriers are inherently slow. Encoding messages into claps, flashes, or smoke puffs means only a few characters per minute can be transmitted. This makes Protocol % unsuitable for large-scale or real-time communication.
+                </p>
+
+                <div class="example-box">
+                    <h4>Speed Comparison</h4>
+                    <ul>
+                        <li><strong>Protocol % (Sound):</strong> ~2-5 characters per minute</li>
+                        <li><strong>Morse Code:</strong> ~20-40 characters per minute</li>
+                        <li><strong>Modern Internet:</strong> Millions of characters per second</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">3. Noise and Interference</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Sound Interference</h4>
+                        <p>Background noise can cause false detections, corrupting the binary stream and producing incorrect characters.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Light Interference</h4>
+                        <p>Competing light sources (street lamps, sunlight) can obscure signals, making detection unreliable.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Environmental Factors</h4>
+                        <p>Wind, humidity, temperature changes can distort heat/smoke signals beyond recognition.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Vibration Noise</h4>
+                        <p>External vibrations (machinery, footsteps) can corrupt touch-based messages.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">4. Error Correction Challenges</h3>
+
+                <p class="doc-text">
+                    Without sophisticated redundancy, corrupted signals produce incorrect characters. While repetition and parity words help, error correction is still primitive compared to digital systems.
+                </p>
+
+                <div class="highlight-box">
+                    <h4>Current Error Handling</h4>
+                    <ul>
+                        <li><strong>Message repetition:</strong> Send the same message 3-5 times</li>
+                        <li><strong>Parity words:</strong> Add "END" or checksum to verify completeness</li>
+                        <li><strong>Manual verification:</strong> Human operators confirm received messages</li>
+                        <li><strong>Timeout handling:</strong> Restart transmission if no acknowledgment</li>
+                    </ul>
+                </div>
+
+                <h3 class="subsection-title">5. Scalability Issues</h3>
+
+                <p class="doc-text">
+                    Protocol % works for small groups or short distances but struggles with wide-area communication. City-to-city or town-to-town reach requires chains of relays, which introduces latency and complexity.
+                </p>
+
+                <h3 class="subsection-title">6. Human Error Factor</h3>
+
+                <p class="doc-text">
+                    In manual encoding (claps, torches, knocks), mistakes are common. Training is required to ensure consistency in timing and framing. Human operators must memorize encoding rules and maintain precise timing.
+                </p>
+
+                <div class="example-box">
+                    <h4>Why These Challenges Matter</h4>
+                    <p>Acknowledging limitations is essential. Protocol % is not about competing with fiber optics or satellites. It is about proving that communication can exist in its most elemental form. The challenges highlight the boundaries of what is possible and inspire creative solutions, such as error correction, redundancy, and adaptive modulation.</p>
+                </div>
+            </section>
+
+            <!-- Roadmap Section -->
+            <section id="roadmap" class="doc-section">
+                <h2 class="section-title">Roadmap</h2>
+
+                <p class="doc-text">
+                    The journey of Protocol % is not about rushing to completion but about carefully exploring each stage of experimentation. The roadmap provides a structured path from simple prototypes to the ambitious vision of communication through nature itself.
+                </p>
+
+                <div class="roadmap-phase phase-1">
+                    <h4>Phase 1: Experimental Channels</h4>
+                    <ul>
+                        <li><strong>Sound channel demo:</strong> ✅ Completed with beeps and silences representing binary values</li>
+                        <li><strong>Light channel demo:</strong> Next step, using torch flashes, LED pulses, or screen flickers to encode bits</li>
+                        <li><strong>Heat/Smoke channel demo:</strong> Simulate controlled bursts of smoke or temperature changes to carry signals</li>
+                        <li><strong>Vibration/Touch channel demo:</strong> Encode bits through knocks, taps, or haptic pulses</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-phase phase-2">
+                    <h4>Phase 2: Encryption Layer</h4>
+                    <ul>
+                        <li><strong>Dummy signals:</strong> Insert extra signals to mask the true payload</li>
+                        <li><strong>Frequency hopping:</strong> Vary tones or flashes to make interception harder</li>
+                        <li><strong>Multi-medium encoding:</strong> Send the same payload simultaneously across sound and light for redundancy</li>
+                        <li><strong>Dynamic parameters:</strong> Change timing thresholds and intensity levels as encryption keys</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-phase phase-3">
+                    <h4>Phase 3: Error Correction</h4>
+                    <ul>
+                        <li><strong>Redundancy:</strong> Repeat messages multiple times to ensure accuracy</li>
+                        <li><strong>Parity bits:</strong> Add simple checks to detect corruption</li>
+                        <li><strong>Error-correcting codes:</strong> Explore Reed–Solomon or fountain codes for robustness</li>
+                        <li><strong>Adaptive retry:</strong> Automatically switch carriers if one fails</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-phase phase-4">
+                    <h4>Phase 4: Prototype Toolkit</h4>
+                    <ul>
+                        <li><strong>Scripts:</strong> Build small PHP/Python/JavaScript tools for each channel</li>
+                        <li><strong>Browser demos:</strong> Create simple web-based sender/receiver prototypes</li>
+                        <li><strong>Human manuals:</strong> Draft guides for claps, torches, smoke, and knocks</li>
+                        <li><strong>Mobile apps:</strong> Develop smartphone tools for encoding/decoding</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-phase phase-5">
+                    <h4>Phase 5: Nature/Universe Integration (Ultimate Goal)</h4>
+                    <ul>
+                        <li><strong>Adaptive encoding:</strong> Messages shapeshift with the environment (sound indoors, light outdoors, smoke across valleys)</li>
+                        <li><strong>Offline scenarios:</strong> Test in places with no technology at all</li>
+                        <li><strong>Human relays:</strong> Train groups to act as carriers, repeating messages across distances</li>
+                        <li><strong>Environmental integration:</strong> Use natural fluctuations (wind, temperature, ambient light) as carriers</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Why the Roadmap Matters</h4>
+                    <p>The roadmap ensures that Protocol % evolves step by step, balancing experimentation with structure. Each phase builds on the last, moving from simple sound experiments to complex multi-medium communication. The ultimate destination is ambitious: messages that ride nature itself, shapeshifting across carriers while preserving meaning.</p>
+                </div>
+            </section>
+
+            <!-- Ultimate Goal Section -->
+            <section id="ultimate-goal" class="doc-section">
+                <h2 class="section-title">The Ultimate Goal</h2>
+
+                <p class="doc-text">
+                    The ultimate vision of Protocol % is not simply to prove that messages can be carried by sound, light, heat, or vibration. It is to demonstrate that <strong>communication itself is a universal property of the world</strong> — something that can exist independently of technology, infrastructure, or ownership.
+                </p>
+
+                <h3 class="subsection-title">The Dream</h3>
+
+                <p class="doc-text">
+                    Protocol % imagines a future where messages can <strong>shapeshift seamlessly across carriers</strong>. A clap in a room becomes a torch flash across a valley, which becomes a smoke puff on a hilltop, which becomes a knock in a bunker.
+                </p>
+
+                <p class="doc-text">
+                    The payload remains intact, framed by %ID%...%, and verified by repetition and parity. The medium changes, but the meaning survives.
+                </p>
+
+                <div class="example-box">
+                    <h4>Vision in Action</h4>
+                    <p>Imagine a disaster scenario where all conventional networks have failed:</p>
+                    <ol>
+                        <li>A survivor in a collapsed building taps a message on a pipe using Protocol % encoding</li>
+                        <li>A rescue worker receives the vibrations and retransmits using torch flashes</li>
+                        <li>Another team sees the light signals and converts them to radio beeps</li>
+                        <li>The message reaches the command center: "5 SURVIVORS BASEMENT LEVEL 2"</li>
+                    </ol>
+                    <p>Same message, multiple carriers, lives saved.</p>
+                </div>
+
+                <h3 class="subsection-title">Why It Matters</h3>
+
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <h4>Resilience in Disasters</h4>
+                        <p>When conventional networks collapse, Protocol % offers a fallback. Messages can still move through natural carriers, ensuring communication in emergencies.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Accessibility for All</h4>
+                        <p>Even in places with no devices, humans themselves can act as transmitters and receivers. Communication becomes a human right, not a service.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Philosophical Depth</h4>
+                        <p>Protocol % is a statement that meaning is not bound to machines. It is elemental, universal, and enduring.</p>
+                    </div>
+
+                    <div class="pillar-card">
+                        <h4>Experimental Joy</h4>
+                        <p>Beyond utility, the project is fun. It invites people to play with claps, torches, smoke, and knocks, rediscovering communication in its raw form.</p>
+                    </div>
+                </div>
+
+                <h3 class="subsection-title">The Road Ahead</h3>
+
+                <div class="highlight-box">
+                    <h4>Next Steps for Protocol %</h4>
+                    <ul>
+                        <li><strong>Refinement of rules:</strong> Establish clear encoding standards across all carriers</li>
+                        <li><strong>Error correction:</strong> Develop lightweight redundancy methods that work in noisy environments</li>
+                        <li><strong>Human manuals:</strong> Create simple guides that anyone can memorize to send and receive messages</li>
+                        <li><strong>Community experiments:</strong> Encourage groups to test Protocol % in real-world scenarios — rooftops, valleys, caves, or gatherings</li>
+                        <li><strong>Legacy:</strong> Document the philosophy and experiments so that future generations can build upon them</li>
+                    </ul>
+                </div>
+
+                <p class="doc-text">
+                    Protocol % represents more than a technical experiment. It is a philosophical statement about the nature of communication itself. It proves that meaning can survive, adapt, and thrive even when stripped of all modern conveniences.
+                </p>
+
+                <p class="doc-text">
+                    In a world increasingly dependent on fragile digital infrastructure, Protocol % reminds us that communication is not owned by corporations or governments. It belongs to the universe itself, waiting to be harnessed by anyone with the knowledge and creativity to use it.
+                </p>
+            </section>
+
+            <!-- Author Section -->
+            <div class="author-section">
+                <h3>About the Author</h3>
+                <p>
+                    This document and the vision of Protocol % were conceived and created by <strong>Milton Vafana</strong>. 
+                    It represents my pursuit of communication systems that ride on natural carriers and universal properties, 
+                    proving that meaning can survive even when the medium changes.
+                </p>
+                <p>
+                    Protocol % is both a technical experiment and a philosophical statement — a testament to the idea that 
+                    communication is not confined to cables and satellites, but is a fundamental property of the universe itself.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

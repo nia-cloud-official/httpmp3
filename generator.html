@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTPMP3 Generator - Protocol %</title>
+    <link rel="stylesheet" href="shared-styles.css">
+    <style>
+        .main-content {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .generator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .input-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .html-textarea {
+            width: 100%;
+            min-height: 200px;
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            color: var(--text-primary);
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .html-textarea:focus {
+            outline: none;
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .generation-controls {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 12px;
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .control-input:focus {
+            outline: none;
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .progress-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--card-border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .frequency-log {
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .output-section {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+        }
+
+        .output-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .generator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <div class="logo">Protocol %</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="generator.html">Generator</a></li>
+                <li><a href="decoder.html">Decoder</a></li>
+                <li><a href="frequency_analyzer.html">Analyzer</a></li>
+                <li><a href="about.html">About</a></li>
+                <li>
+                    <a href="https://github.com/nia-cloud-official/httpmp3" target="_blank" class="btn-github">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">HTTPMP3 Generator</h1>
+                <p class="page-subtitle">
+                    Convert your HTML websites into audio frequencies using advanced Protocol % encoding
+                </p>
+            </div>
+
+            <!-- Input and Controls -->
+            <div class="generator-grid">
+                <div class="input-section">
+                    <h3 style="margin-bottom: 16px; color: var(--text-primary);">HTML Content</h3>
+                    <textarea id="htmlInput" class="html-textarea" placeholder="Enter your HTML code here..."><h1>Hi</h1></textarea>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 12px;">
+                        Enter the HTML content you want to convert to audio frequencies
+                    </p>
+                </div>
+
+                <div class="controls-section">
+                    <div class="generation-controls">
+                        <h4 style="margin-bottom: 16px; color: var(--text-primary);">Audio Settings</h4>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Tone Duration (seconds)</label>
+                            <input type="number" class="control-input" id="toneDuration" value="1.0" min="0.1" max="5.0" step="0.1">
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Gap Duration (seconds)</label>
+                            <input type="number" class="control-input" id="gapDuration" value="0.3" min="0.1" max="2.0" step="0.1">
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label">Volume</label>
+                            <input type="range" class="control-input" id="volume" min="0.1" max="1.0" step="0.1" value="0.7">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="generateRealAudio()" id="generateBtn">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                        </svg>
+                        Generate Audio
+                    </button>
+
+                    <button class="btn btn-secondary" onclick="downloadAudio()" id="downloadBtn" style="display:none;">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+                        </svg>
+                        Download WAV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section" id="progressSection">
+                <h3 style="margin-bottom: 16px; color: var(--text-primary);">Generation Progress</h3>
+                <div id="statusMessage" class="status-message status-info">Preparing audio generation...</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="frequency-log" id="frequencyLog"></div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-section" id="outputSection">
+                <h3 style="margin-bottom: 24px; color: var(--text-primary);">Generated Audio</h3>
+                
+                <audio id="player" class="audio-player" controls></audio>
+                
+                <div class="output-stats" id="outputStats"></div>
+                
+                <div style="margin-top: 24px;">
+                    <h4 style="color: var(--text-primary); margin-bottom: 12px;">Encoding Details</h4>
+                    <div id="encodingDetails" style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let audioBlob = null;
+        
+        // Real encoding frequencies - covers full ASCII range
+        const freqs = {
+            // Control frequencies
+            frame_start: 440,
+            frame_end: 2200,
+            data_start: 500,
+            data_end: 2100,
+            
+            // ASCII encoding: 32-126 (printable characters)
+            // Base frequency 600Hz, increment by 15Hz per character
+            // This gives us 600Hz to 2010Hz range for 95 printable ASCII chars
+        };
+        
+        // Generate ASCII frequency map
+        function getCharFrequency(char) {
+            const ascii = char.charCodeAt(0);
+            if (ascii >= 32 && ascii <= 126) {
+                const freq = 600 + (ascii - 32) * 15; // 600Hz to 2010Hz
+                console.log(`Encoding '${char}' (ASCII ${ascii}) -> ${freq}Hz`);
+                return freq;
+            }
+            return null; // Unsupported character
+        }
+        
+        function getFrequencyChar(freq) {
+            const ascii = Math.round((freq - 600) / 15) + 32;
+            if (ascii >= 32 && ascii <= 126) {
+                return String.fromCharCode(ascii);
+            }
+            return null;
+        }
+
+        // UI Helper Functions
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message status-${type}`;
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+
+        function logFrequency(message) {
+            const log = document.getElementById('frequencyLog');
+            log.innerHTML += message + '\n';
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function showStats(sequence, duration, htmlLength, sampleRate) {
+            const statsDiv = document.getElementById('outputStats');
+            statsDiv.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-value">${sequence.length}</div>
+                    <div class="stat-label">Total Tones</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${duration.toFixed(1)}s</div>
+                    <div class="stat-label">Duration</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${htmlLength}</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${(sampleRate/1000).toFixed(1)}kHz</div>
+                    <div class="stat-label">Sample Rate</div>
+                </div>
+            `;
+        }
+        
+        async function generateRealAudio() {
+            console.log('Starting audio generation...');
+            
+            // Show progress section
+            const progressSection = document.getElementById('progressSection');
+            const outputSection = document.getElementById('outputSection');
+            progressSection.style.display = 'block';
+            outputSection.style.display = 'none';
+            
+            // Clear frequency log
+            document.getElementById('frequencyLog').innerHTML = '';
+            
+            showStatus('Initializing audio generation...', 'info');
+            updateProgress(0);
+            
+            // Get the actual HTML content from the textarea
+            const htmlContent = document.getElementById('htmlInput').value;
+            const toneDuration = parseFloat(document.getElementById('toneDuration').value);
+            const gapDuration = parseFloat(document.getElementById('gapDuration').value);
+            const volume = parseFloat(document.getElementById('volume').value);
+            
+            console.log('HTML to encode:', htmlContent);
+            logFrequency(`Encoding HTML: "${htmlContent}"`);
+            logFrequency(`Settings: ${toneDuration}s tone, ${gapDuration}s gap, ${volume} volume`);
+            
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const sampleRate = ctx.sampleRate;
+            
+            showStatus('Creating frequency sequence...', 'info');
+            updateProgress(10);
+            
+            // Create sequence that encodes the actual HTML content
+            const sequence = encodeHTMLToFrequencies(htmlContent);
+            
+            console.log('Generated sequence:', sequence);
+            console.log('Total tones:', sequence.length);
+            logFrequency(`Generated ${sequence.length} frequency tones`);
+            
+            // Audio parameters - optimized for better detection
+            const totalDuration = sequence.length * (toneDuration + gapDuration);
+            
+            console.log(`Total duration: ${totalDuration}s`);
+            logFrequency(`Total duration: ${totalDuration.toFixed(1)} seconds`);
+            
+            showStatus('Generating audio buffer...', 'info');
+            updateProgress(30);
+            
+            const buffer = ctx.createBuffer(1, Math.floor(sampleRate * totalDuration), sampleRate);
+            const data = buffer.getChannelData(0);
+            
+            // Generate each tone
+            let timeOffset = 0;
+            for (let i = 0; i < sequence.length; i++) {
+                const item = sequence[i];
+                console.log(`Tone ${i + 1}: ${item.freq}Hz (${item.char || item.type})`);
+                logFrequency(`${i + 1}. ${item.freq}Hz → '${item.char || item.type}'`);
+                
+                const startSample = Math.floor(timeOffset * sampleRate);
+                const endSample = Math.floor((timeOffset + toneDuration) * sampleRate);
+                
+                for (let j = startSample; j < endSample && j < data.length; j++) {
+                    const t = (j - startSample) / sampleRate;
+                    // Add amplitude envelope to reduce clicking and improve detection
+                    const fadeTime = 0.05; // 50ms fade in/out
+                    let envelope = 1.0;
+                    
+                    if (t < fadeTime) {
+                        envelope = t / fadeTime; // Fade in
+                    } else if (t > toneDuration - fadeTime) {
+                        envelope = (toneDuration - t) / fadeTime; // Fade out
+                    }
+                    
+                    // Generate pure sine wave with envelope
+                    data[j] = Math.sin(2 * Math.PI * item.freq * t) * volume * envelope;
+                }
+                
+                timeOffset += toneDuration + gapDuration;
+                
+                // Update progress
+                const progress = 30 + ((i + 1) / sequence.length) * 60;
+                updateProgress(progress);
+            }
+            
+            showStatus('Converting to WAV format...', 'info');
+            updateProgress(95);
+            
+            // Convert to WAV
+            audioBlob = bufferToWav(buffer);
+            
+            updateProgress(100);
+            showStatus('Audio generation complete!', 'success');
+            
+            // Show result
+            const url = URL.createObjectURL(audioBlob);
+            document.getElementById('player').src = url;
+            
+            showStats(sequence, totalDuration, htmlContent.length, sampleRate);
+            
+            document.getElementById('encodingDetails').innerHTML = `
+                <strong>Encoding Method:</strong> Character-by-character frequency mapping<br>
+                <strong>Frequency Range:</strong> 600Hz - 2010Hz (ASCII 32-126)<br>
+                <strong>Control Frequencies:</strong> Frame Start (440Hz), Data Start (500Hz), Data End (2100Hz), Frame End (2200Hz)<br>
+                <strong>Character Encoding:</strong> Base 600Hz + (ASCII - 32) × 15Hz<br>
+                <strong>Audio Format:</strong> 16-bit PCM WAV, ${sampleRate}Hz sample rate
+            `;
+            
+            outputSection.style.display = 'block';
+            document.getElementById('downloadBtn').style.display = 'inline-flex';
+            
+            console.log('Audio generation complete!');
+        }
+        
+        function encodeHTMLToFrequencies(html) {
+            const sequence = [];
+            
+            // Start frame
+            sequence.push({ freq: freqs.frame_start, type: 'frame_start' });
+            
+            // Data start marker
+            sequence.push({ freq: freqs.data_start, type: 'data_start' });
+            
+            // Encode each character
+            for (let i = 0; i < html.length; i++) {
+                const char = html[i];
+                const freq = getCharFrequency(char);
+                
+                if (freq) {
+                    sequence.push({ 
+                        freq: freq, 
+                        char: char,
+                        type: 'data',
+                        ascii: char.charCodeAt(0)
+                    });
+                } else {
+                    console.warn(`Skipping unsupported character: ${char} (ASCII ${char.charCodeAt(0)})`);
+                }
+            }
+            
+            // Data end marker
+            sequence.push({ freq: freqs.data_end, type: 'data_end' });
+            
+            // End frame
+            sequence.push({ freq: freqs.frame_end, type: 'frame_end' });
+            
+            return sequence;
+        }
+        
+        function bufferToWav(buffer) {
+            const length = buffer.length;
+            const arrayBuffer = new ArrayBuffer(44 + length * 2);
+            const view = new DataView(arrayBuffer);
+            const data = buffer.getChannelData(0);
+            
+            console.log(`Converting buffer to WAV: ${length} samples, ${length / buffer.sampleRate} seconds`);
+            
+            // WAV header
+            function writeString(offset, string) {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            }
+            
+            writeString(0, 'RIFF');
+            view.setUint32(4, 36 + length * 2, true);
+            writeString(8, 'WAVE');
+            writeString(12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);  // PCM
+            view.setUint16(22, 1, true);  // Mono
+            view.setUint32(24, buffer.sampleRate, true);
+            view.setUint32(28, buffer.sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(36, 'data');
+            view.setUint32(40, length * 2, true);
+            
+            // Convert samples
+            let offset = 44;
+            for (let i = 0; i < length; i++) {
+                const sample = Math.max(-1, Math.min(1, data[i]));
+                view.setInt16(offset, sample * 0x7FFF, true);
+                offset += 2;
+            }
+            
+            console.log(`WAV file created: ${arrayBuffer.byteLength} bytes`);
+            
+            return new Blob([arrayBuffer], { type: 'audio/wav' });
+        }
+        
+        function downloadAudio() {
+            if (!audioBlob) return;
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(audioBlob);
+            a.download = 'httpmp3.wav';
+            a.click();
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,292 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Website - HTTPMP3</title>
+    <title>Upload Website - Protocol %</title>
+    <link rel="stylesheet" href="shared-styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-            background: #0d1117;
-            color: #c9d1d9;
-            line-height: 1.6;
+        .main-content {
+            padding: 120px 0 80px;
             min-height: 100vh;
         }
-        
-        .container {
-            max-width: 1000px;
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
         }
-        
-        .header {
-            text-align: center;
-            padding: 40px 0;
-            border-bottom: 1px solid #21262d;
-            margin-bottom: 30px;
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
         }
-        
-        .header h1 {
-            font-size: 2.5rem;
-            color: #58a6ff;
-            margin-bottom: 10px;
-        }
-        
+
         .upload-section {
-            background: #161b22;
-            border: 1px solid #21262d;
-            border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(10px);
         }
-        
+
         .upload-area {
-            border: 2px dashed #30363d;
-            border-radius: 8px;
-            padding: 60px 20px;
+            border: 2px dashed var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 40px 20px;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             cursor: pointer;
+            margin: 20px 0;
         }
-        
+
         .upload-area:hover {
-            border-color: #58a6ff;
-            background: rgba(88, 166, 255, 0.05);
+            border-color: rgba(79, 172, 254, 0.5);
+            background: rgba(79, 172, 254, 0.02);
         }
-        
+
         .upload-area.dragover {
-            border-color: #3fb950;
-            background: rgba(63, 185, 80, 0.05);
+            border-color: var(--accent-gradient);
+            background: rgba(79, 172, 254, 0.05);
         }
-        
+
         .upload-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            color: #6e7681;
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            padding: 16px;
+            background: var(--accent-gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
+
+        .upload-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
         .form-group {
-            margin-bottom: 20px;
-            text-align: left;
+            margin-bottom: 24px;
         }
-        
-        .form-group label {
+
+        .form-label {
             display: block;
             margin-bottom: 8px;
-            color: #f0f6fc;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
         }
-        
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+
+        .form-input,
+        .form-textarea,
+        .form-select {
             width: 100%;
             padding: 12px;
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            color: #c9d1d9;
-            font-family: inherit;
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
-        
-        .form-group textarea {
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: rgba(79, 172, 254, 0.5);
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .form-textarea {
             height: 200px;
             resize: vertical;
-            font-family: 'SF Mono', monospace;
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
-        
-        .btn {
-            background: #238636;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 500;
-            transition: background-color 0.2s;
+
+        .settings-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
-        
-        .btn:hover {
-            background: #2ea043;
+
+        .settings-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            backdrop-filter: blur(10px);
         }
-        
-        .btn:disabled {
-            background: #21262d;
-            color: #6e7681;
-            cursor: not-allowed;
-        }
-        
+
         .progress-section {
             display: none;
-            background: #161b22;
-            border: 1px solid #21262d;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
         }
-        
+
         .progress-bar {
             width: 100%;
             height: 8px;
-            background: #21262d;
+            background: var(--card-border);
             border-radius: 4px;
             overflow: hidden;
-            margin: 15px 0;
+            margin: 16px 0;
         }
-        
+
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #238636, #58a6ff);
+            background: var(--accent-gradient);
             width: 0%;
-            transition: width 0.3s;
+            transition: width 0.3s ease;
         }
-        
+
         .result-section {
             display: none;
-            background: #161b22;
-            border: 1px solid #21262d;
-            border-radius: 12px;
-            padding: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(10px);
         }
-        
+
         .audio-player {
             width: 100%;
             margin: 20px 0;
+            border-radius: var(--border-radius);
         }
-        
-        .download-links {
+
+        .action-buttons {
             display: flex;
-            gap: 15px;
+            gap: 16px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 24px;
         }
-        
-        .btn-secondary {
-            background: transparent;
-            color: #58a6ff;
-            border: 1px solid #58a6ff;
+
+        .instructions-card {
+            margin-top: 32px;
+            padding: 24px;
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
         }
-        
-        .btn-secondary:hover {
-            background: #58a6ff;
-            color: #0d1117;
+
+        .instructions-title {
+            color: var(--accent-color);
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
-        
-        .back-link {
-            display: inline-block;
-            color: #58a6ff;
-            text-decoration: none;
-            margin-bottom: 20px;
+
+        .instructions-list {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            padding-left: 20px;
         }
-        
-        .back-link:hover {
-            text-decoration: underline;
+
+        .instructions-list li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .upload-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">← Back to Home</a>
-        
-        <div class="header">
-            <h1>Upload Your Website</h1>
-            <p>Convert your HTML website into audio frequencies for HTTPMP3 hosting</p>
+    <div class="bg-animation"></div>
+    
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <div class="logo">Protocol %</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="generator.html">Generator</a></li>
+                <li><a href="decoder.html">Decoder</a></li>
+                <li><a href="frequency_analyzer.html">Analyzer</a></li>
+                <li><a href="about.html">About</a></li>
+                <li>
+                    <a href="https://github.com/nia-cloud-official/httpmp3" target="_blank" class="btn-github">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </li>
+            </ul>
         </div>
-        
-        <div class="upload-section">
-            <h3 style="margin-bottom: 20px;">Website Content</h3>
-            
-            <div class="form-group">
-                <label for="uploadMethod">Upload Method</label>
-                <select id="uploadMethod">
-                    <option value="html">Direct HTML Input</option>
-                    <option value="file">Upload HTML File</option>
-                    <option value="url">From URL</option>
-                </select>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Upload Website</h1>
+                <p class="page-subtitle">
+                    Convert your HTML website into audio frequencies for Protocol % hosting
+                </p>
             </div>
-            
-            <div id="htmlInput" class="form-group">
-                <label for="htmlContent">HTML Content</label>
-                <textarea id="htmlContent" placeholder="Paste your HTML content here..."><!DOCTYPE html>
+
+            <!-- Upload and Settings -->
+            <div class="upload-grid">
+                <!-- Content Input Section -->
+                <div class="upload-section">
+                    <h3 style="margin-bottom: 24px; color: var(--text-primary);">Website Content</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="uploadMethod">Upload Method</label>
+                        <select id="uploadMethod" class="form-select">
+                            <option value="html">Direct HTML Input</option>
+                            <option value="file">Upload HTML File</option>
+                            <option value="url">From URL</option>
+                        </select>
+                    </div>
+                    
+                    <div id="htmlInput" class="form-group">
+                        <label class="form-label" for="htmlContent">HTML Content</label>
+                        <textarea id="htmlContent" class="form-textarea" placeholder="Paste your HTML content here..."><!DOCTYPE html>
 <html>
 <head>
     <title>My Website</title>
 </head>
 <body>
     <h1>Hello World!</h1>
-    <p>This is my website hosted via HTTPMP3!</p>
+    <p>This is my website hosted via Protocol %!</p>
 </body>
 </html></textarea>
-            </div>
-            
-            <div id="fileInput" class="form-group" style="display: none;">
-                <label>Upload HTML File</label>
-                <div class="upload-area" id="uploadArea">
-                    <div class="upload-icon">📁</div>
-                    <p>Drag & drop your HTML file here or click to browse</p>
-                    <input type="file" id="fileUpload" accept=".html,.htm" style="display: none;">
+                    </div>
+                    
+                    <div id="fileInput" class="form-group" style="display: none;">
+                        <label class="form-label">Upload HTML File</label>
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                                </svg>
+                            </div>
+                            <h4 style="margin-bottom: 8px; color: var(--text-primary);">Drop HTML file here</h4>
+                            <p style="color: var(--text-secondary);">or click to browse files</p>
+                            <input type="file" id="fileUpload" accept=".html,.htm" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <div id="urlInput" class="form-group" style="display: none;">
+                        <label class="form-label" for="websiteUrl">Website URL</label>
+                        <input type="url" id="websiteUrl" class="form-input" placeholder="https://example.com">
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div class="settings-section">
+                    <div class="settings-card">
+                        <h4 style="margin-bottom: 16px; color: var(--text-primary);">Audio Settings</h4>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="audioFormat">Audio Format</label>
+                            <select id="audioFormat" class="form-select">
+                                <option value="wav">WAV (Uncompressed)</option>
+                                <option value="mp3">MP3 (Compressed)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="frequency">Base Frequency (Hz)</label>
+                            <input type="number" id="frequency" class="form-input" value="440" min="200" max="2000">
+                        </div>
+                    </div>
+
+                    <button id="generateBtn" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                        </svg>
+                        Generate Audio Website
+                    </button>
                 </div>
             </div>
-            
-            <div id="urlInput" class="form-group" style="display: none;">
-                <label for="websiteUrl">Website URL</label>
-                <input type="url" id="websiteUrl" placeholder="https://example.com">
+            <!-- Progress Section -->
+            <div class="progress-section" id="progressSection">
+                <h3 style="margin-bottom: 16px; color: var(--text-primary);">Converting Website to Audio</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText" style="color: var(--text-secondary);">Initializing...</p>
             </div>
             
-            <div class="form-group">
-                <label for="audioFormat">Audio Format</label>
-                <select id="audioFormat">
-                    <option value="wav">WAV (Uncompressed)</option>
-                    <option value="mp3">MP3 (Compressed)</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="frequency">Base Frequency (Hz)</label>
-                <input type="number" id="frequency" value="440" min="200" max="2000">
-            </div>
-            
-            <button id="generateBtn" class="btn">🎵 Generate Audio Website</button>
-        </div>
-        
-        <div class="progress-section" id="progressSection">
-            <h3>Converting Website to Audio...</h3>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <p id="progressText">Initializing...</p>
-        </div>
-        
-        <div class="result-section" id="resultSection">
-            <h3>🎉 Your Website is Ready!</h3>
-            <p>Your website has been successfully converted to audio frequencies.</p>
-            
-            <audio class="audio-player" id="audioPlayer" controls>
-                Your browser does not support the audio element.
-            </audio>
-            
-            <div class="download-links">
-                <button id="downloadBtn" class="btn">📥 Download Audio File</button>
-                <button id="testBtn" class="btn btn-secondary">🧪 Test Decoder</button>
-                <button id="shareBtn" class="btn btn-secondary">🔗 Share Link</button>
-            </div>
-            
-            <div style="margin-top: 30px; padding: 20px; background: #0d1117; border-radius: 8px;">
-                <h4 style="color: #58a6ff; margin-bottom: 10px;">How to Use:</h4>
-                <ol style="color: #8b949e; line-height: 1.8;">
-                    <li>Download the audio file to your device</li>
-                    <li>Play it through speakers or transmit via any audio medium</li>
-                    <li>Use the HTTPMP3 decoder to convert audio back to website</li>
-                    <li>Share the audio file - your website travels as sound!</li>
-                </ol>
+            <!-- Result Section -->
+            <div class="result-section" id="resultSection">
+                <h3 style="margin-bottom: 16px; color: var(--text-primary);">Your Website is Ready!</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                    Your website has been successfully converted to audio frequencies.
+                </p>
+                
+                <audio class="audio-player" id="audioPlayer" controls>
+                    Your browser does not support the audio element.
+                </audio>
+                
+                <div class="action-buttons">
+                    <button id="downloadBtn" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+                        </svg>
+                        Download Audio File
+                    </button>
+                    <button id="testBtn" class="btn btn-secondary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
+                        </svg>
+                        Test Decoder
+                    </button>
+                    <button id="shareBtn" class="btn btn-secondary">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z"/>
+                        </svg>
+                        Share Link
+                    </button>
+                </div>
+                
+                <div class="instructions-card">
+                    <h4 class="instructions-title">How to Use Your Audio Website</h4>
+                    <ol class="instructions-list">
+                        <li>Download the audio file to your device</li>
+                        <li>Play it through speakers or transmit via any audio medium</li>
+                        <li>Use the Protocol % decoder to convert audio back to website</li>
+                        <li>Share the audio file - your website travels as sound!</li>
+                    </ol>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
         class WebsiteToAudio {
@@ -544,7 +649,7 @@
             }
             
             testDecoder() {
-                window.open('production_client.html', '_blank');
+                window.open('decoder.html', '_blank');
             }
             
             delay(ms) {
@@ -555,6 +660,16 @@
         // Initialize when page loads
         window.addEventListener('load', () => {
             new WebsiteToAudio();
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         });
     </script>
 </body>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTPMP3 System Test - Protocol %</title>
+    <link rel="stylesheet" href="shared-styles.css">
+    <style>
+        .main-content {
+            padding: 120px 0 80px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: var(--warning-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.03em;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .test-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .test-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .test-icon {
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+            background: var(--warning-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .test-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .test-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .test-description {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .test-results {
+            margin-top: 24px;
+            min-height: 100px;
+        }
+
+        .result-item {
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: var(--border-radius);
+            font-family: 'Fira Code', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .result-pass {
+            background: rgba(67, 233, 123, 0.1);
+            border: 1px solid rgba(67, 233, 123, 0.3);
+            color: #43e97b;
+        }
+
+        .result-fail {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+        }
+
+        .result-info {
+            background: rgba(79, 172, 254, 0.1);
+            border: 1px solid rgba(79, 172, 254, 0.3);
+            color: #4facfe;
+        }
+
+        .test-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: var(--dark-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--warning-color);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <div class="logo">Protocol %</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="generator.html">Generator</a></li>
+                <li><a href="decoder.html">Decoder</a></li>
+                <li><a href="frequency_analyzer.html">Analyzer</a></li>
+                <li><a href="about.html">About</a></li>
+                <li>
+                    <a href="https://github.com/nia-cloud-official/httpmp3" target="_blank" class="btn-github">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/>
+                        </svg>
+                        GitHub
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">HTTPMP3 System Test</h1>
+                <p class="page-subtitle">
+                    Comprehensive testing suite for Protocol % encoding and decoding functionality
+                </p>
+            </div>
+
+            <!-- Test Sections -->
+            <div class="test-grid">
+                <!-- Character Encoding Test -->
+                <div class="test-section">
+                    <div class="test-header">
+                        <div class="test-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12,3C7.58,3 4,4.79 4,7C4,9.21 7.58,11 12,11C16.42,11 20,9.21 20,7C20,4.79 16.42,3 12,3M4,9V12C4,14.21 7.58,16 12,16C16.42,16 20,14.21 20,12V9C20,11.21 16.42,13 12,13C7.58,13 4,11.21 4,9M4,14V17C4,19.21 7.58,21 12,21C16.42,21 20,19.21 20,17V14C20,16.21 16.42,18 12,18C7.58,18 4,16.21 4,14Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="test-title">Character Encoding Test</h3>
+                    </div>
+                    <p class="test-description">
+                        Validates the bidirectional mapping between ASCII characters and their corresponding frequencies
+                    </p>
+                    <button class="btn btn-primary" onclick="testCharacterEncoding()">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M8,5.14V19.14L19,12.14L8,5.14Z"/>
+                        </svg>
+                        Test Character Mapping
+                    </button>
+                    <div class="test-results" id="charTest"></div>
+                </div>
+
+                <!-- Frequency Range Test -->
+                <div class="test-section">
+                    <div class="test-header">
+                        <div class="test-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="test-title">Frequency Range Test</h3>
+                    </div>
+                    <p class="test-description">
+                        Analyzes frequency coverage and checks for potential conflicts in the encoding scheme
+                    </p>
+                    <button class="btn btn-primary" onclick="testFrequencyRange()">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                        </svg>
+                        Test Frequency Coverage
+                    </button>
+                    <div class="test-results" id="freqTest"></div>
+                </div>
+
+                <!-- HTML Encoding Test -->
+                <div class="test-section">
+                    <div class="test-header">
+                        <div class="test-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="test-title">HTML Encoding Test</h3>
+                    </div>
+                    <p class="test-description">
+                        Tests complete HTML-to-frequency encoding and decoding round-trip functionality
+                    </p>
+                    <button class="btn btn-primary" onclick="testHTMLEncoding()">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+                        </svg>
+                        Test HTML to Frequencies
+                    </button>
+                    <div class="test-results" id="htmlTest"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Same encoding functions as the generator
+        function getCharFrequency(char) {
+            const ascii = char.charCodeAt(0);
+            if (ascii >= 32 && ascii <= 126) {
+                return 600 + (ascii - 32) * 15;
+            }
+            return null;
+        }
+        
+        function getFrequencyChar(freq) {
+            const ascii = Math.round((freq - 600) / 15) + 32;
+            if (ascii >= 32 && ascii <= 126) {
+                return String.fromCharCode(ascii);
+            }
+            return null;
+        }
+        
+        function testCharacterEncoding() {
+            const testDiv = document.getElementById('charTest');
+            let results = '<h4 style="color: var(--text-primary); margin-bottom: 16px;">Character Encoding Results</h4>';
+            let passed = 0;
+            let total = 0;
+            
+            // Test printable ASCII characters
+            for (let ascii = 32; ascii <= 126; ascii++) {
+                const char = String.fromCharCode(ascii);
+                const freq = getCharFrequency(char);
+                const decoded = getFrequencyChar(freq);
+                
+                total++;
+                if (char === decoded) {
+                    passed++;
+                } else {
+                    results += `<div class="result-item result-fail">FAIL: '${char}' (${ascii}) -> ${freq}Hz -> '${decoded}'</div>`;
+                }
+            }
+            
+            const passRate = (passed / total * 100).toFixed(1);
+            
+            results += `<div class="test-stats">
+                <div class="stat-item">
+                    <div class="stat-value">${passed}</div>
+                    <div class="stat-label">Passed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${total}</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${passRate}%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>`;
+            
+            results += `<div class="result-item ${passed === total ? 'result-pass' : 'result-fail'}">
+                Test Results: ${passed}/${total} characters passed encoding/decoding validation
+            </div>`;
+            
+            testDiv.innerHTML = results;
+        }
+        
+        function testFrequencyRange() {
+            const testDiv = document.getElementById('freqTest');
+            let results = '<h4 style="color: var(--text-primary); margin-bottom: 16px;">Frequency Range Analysis</h4>';
+            
+            const minFreq = getCharFrequency(' '); // ASCII 32
+            const maxFreq = getCharFrequency('~'); // ASCII 126
+            const totalChars = 126 - 32 + 1;
+            
+            results += `<div class="test-stats">
+                <div class="stat-item">
+                    <div class="stat-value">${minFreq}Hz</div>
+                    <div class="stat-label">Min Frequency</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${maxFreq}Hz</div>
+                    <div class="stat-label">Max Frequency</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${totalChars}</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${maxFreq - minFreq}Hz</div>
+                    <div class="stat-label">Bandwidth</div>
+                </div>
+            </div>`;
+            
+            results += `<div class="result-item result-info">
+                Frequency Range: ${minFreq}Hz - ${maxFreq}Hz<br>
+                Frequency Step: 15Hz per character<br>
+                Total Bandwidth Required: ${maxFreq - minFreq}Hz
+            </div>`;
+            
+            // Test for frequency conflicts
+            const freqMap = new Map();
+            let conflicts = 0;
+            
+            for (let ascii = 32; ascii <= 126; ascii++) {
+                const char = String.fromCharCode(ascii);
+                const freq = getCharFrequency(char);
+                
+                if (freqMap.has(freq)) {
+                    conflicts++;
+                    results += `<div class="result-item result-fail">CONFLICT: ${freq}Hz used by both '${freqMap.get(freq)}' and '${char}'</div>`;
+                } else {
+                    freqMap.set(freq, char);
+                }
+            }
+            
+            if (conflicts === 0) {
+                results += `<div class="result-item result-pass">No frequency conflicts detected - each character has unique frequency</div>`;
+            }
+            
+            testDiv.innerHTML = results;
+        }
+        
+        function testHTMLEncoding() {
+            const testDiv = document.getElementById('htmlTest');
+            const testHTML = '<html><head><title>Test</title></head><body><h1>Hello</h1></body></html>';
+            
+            let results = '<h4 style="color: var(--text-primary); margin-bottom: 16px;">HTML Encoding Test</h4>';
+            results += `<div class="result-item result-info">Test HTML: <code>${testHTML}</code></div>`;
+            
+            // Simulate encoding
+            const frequencies = [];
+            for (let i = 0; i < testHTML.length; i++) {
+                const char = testHTML[i];
+                const freq = getCharFrequency(char);
+                if (freq) {
+                    frequencies.push({ char, freq });
+                }
+            }
+            
+            results += `<div class="test-stats">
+                <div class="stat-item">
+                    <div class="stat-value">${testHTML.length}</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${frequencies.length}</div>
+                    <div class="stat-label">Frequencies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">${(frequencies.length * 1.0).toFixed(1)}s</div>
+                    <div class="stat-label">Duration</div>
+                </div>
+            </div>`;
+            
+            // Test decoding
+            let decoded = '';
+            for (const item of frequencies) {
+                const decodedChar = getFrequencyChar(item.freq);
+                decoded += decodedChar;
+            }
+            
+            const success = decoded === testHTML;
+            results += `<div class="result-item result-info">
+                Decoded HTML: <code>${decoded}</code>
+            </div>`;
+            
+            results += `<div class="result-item ${success ? 'result-pass' : 'result-fail'}">
+                Round-trip Test: ${success ? 'PASS - Perfect reconstruction' : 'FAIL - Data corruption detected'}
+            </div>`;
+            
+            testDiv.innerHTML = results;
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frequency Test</title>
+</head>
+<body>
+    <h1>Frequency Mapping Test</h1>
+    <div id="results"></div>
+
+    <script>
+        // Generator function
+        function getCharFrequency(char) {
+            const ascii = char.charCodeAt(0);
+            if (ascii >= 32 && ascii <= 126) {
+                return 600 + (ascii - 32) * 15;
+            }
+            return null;
+        }
+        
+        // Decoder function
+        function getFrequencyChar(freq) {
+            const ascii = Math.round((freq - 600) / 15) + 32;
+            if (ascii >= 32 && ascii <= 126) {
+                return String.fromCharCode(ascii);
+            }
+            return null;
+        }
+        
+        // Test the mapping
+        const testChars = ['<', '>', 'h', 't', 'm', 'l', '/', '1', ' '];
+        let results = '<table border="1"><tr><th>Char</th><th>ASCII</th><th>Frequency</th><th>Decoded</th><th>Match</th></tr>';
+        
+        for (const char of testChars) {
+            const ascii = char.charCodeAt(0);
+            const freq = getCharFrequency(char);
+            const decoded = getFrequencyChar(freq);
+            const match = char === decoded;
+            
+            results += `<tr>
+                <td>${char === ' ' ? 'SPACE' : char}</td>
+                <td>${ascii}</td>
+                <td>${freq} Hz</td>
+                <td>${decoded === ' ' ? 'SPACE' : decoded}</td>
+                <td style="color: ${match ? 'green' : 'red'}">${match ? '✓' : '✗'}</td>
+            </tr>`;
+        }
+        
+        results += '</table>';
+        document.getElementById('results').innerHTML = results;
+        
+        // Test the HTML string
+        const html = '<html>';
+        console.log('Testing HTML string:', html);
+        for (let i = 0; i < html.length; i++) {
+            const char = html[i];
+            const freq = getCharFrequency(char);
+            const decoded = getFrequencyChar(freq);
+            console.log(`'${char}' -> ${freq}Hz -> '${decoded}' (${char === decoded ? 'OK' : 'FAIL'})`);
+        }
+    </script>
+</body>
+</html>
