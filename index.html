@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTPMP3 - Audio Web Hosting Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+            color: #c9d1d9;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 1px solid #21262d;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #58a6ff, #3fb950, #f85149);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+        
+        .header p {
+            color: #8b949e;
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .feature-card {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #58a6ff;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            color: #f0f6fc;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .feature-card p {
+            color: #8b949e;
+            line-height: 1.6;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 50px 0;
+            background: #161b22;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #238636;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2ea043;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #58a6ff;
+            border: 2px solid #58a6ff;
+        }
+        
+        .btn-secondary:hover {
+            background: #58a6ff;
+            color: #0d1117;
+        }
+        
+        .demo-section {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 40px 0;
+        }
+        
+        .demo-section h2 {
+            color: #58a6ff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #21262d;
+            margin-top: 60px;
+            color: #6e7681;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>HTTPMP3</h1>
+            <p>Revolutionary audio-based web hosting platform. Upload your website as audio frequencies and host it anywhere sound can travel.</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎵</div>
+                <h3>Audio Protocol</h3>
+                <p>Convert your HTML websites into audio frequencies using our proprietary Protocol % technology. Your website becomes a sound file.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📡</div>
+                <h3>Universal Hosting</h3>
+                <p>Host websites through any audio medium - radio waves, phone calls, speakers, or even acoustic transmission through air.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔊</div>
+                <h3>Live Decoding</h3>
+                <p>Real-time audio-to-HTML conversion in the browser. Play the audio and watch your website materialize from sound waves.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Decentralized</h3>
+                <p>No traditional servers needed. Your website exists as audio data that can be transmitted and decoded anywhere.</p>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2>Ready to Host Your Website as Audio?</h2>
+            <p>Join the future of web hosting with HTTPMP3</p>
+            <div class="cta-buttons">
+                <a href="upload.html" class="btn btn-primary">Upload Website</a>
+                <a href="decoder.html" class="btn btn-secondary">Try Decoder</a>
+                <a href="docs.html" class="btn btn-secondary">Documentation</a>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🎧 Live Demo</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Experience HTTPMP3 in action - decode a website from audio frequencies</p>
+            <div style="text-align: center;">
+                <a href="production_client.html" class="btn btn-primary">Launch Live Decoder</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2026 HTTPMP3 - Audio Web Hosting Platform | Protocol % Technology</p>
+        </div>
+    </div>
+</body>
+</html>

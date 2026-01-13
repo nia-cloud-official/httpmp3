@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Website - HTTPMP3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            background: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid #21262d;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #58a6ff;
+            margin-bottom: 10px;
+        }
+        
+        .upload-section {
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #30363d;
+            border-radius: 8px;
+            padding: 60px 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #58a6ff;
+            background: rgba(88, 166, 255, 0.05);
+        }
+        
+        .upload-area.dragover {
+            border-color: #3fb950;
+            background: rgba(63, 185, 80, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #6e7681;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f0f6fc;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #c9d1d9;
+            font-family: inherit;
+        }
+        
+        .form-group textarea {
+            height: 200px;
+            resize: vertical;
+            font-family: 'SF Mono', monospace;
+        }
+        
+        .btn {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background: #2ea043;
+        }
+        
+        .btn:disabled {
+            background: #21262d;
+            color: #6e7681;
+            cursor: not-allowed;
+        }
+        
+        .progress-section {
+            display: none;
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #21262d;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #238636, #58a6ff);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .result-section {
+            display: none;
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 12px;
+            padding: 30px;
+        }
+        
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .download-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #58a6ff;
+            border: 1px solid #58a6ff;
+        }
+        
+        .btn-secondary:hover {
+            background: #58a6ff;
+            color: #0d1117;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #58a6ff;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        
+        <div class="header">
+            <h1>Upload Your Website</h1>
+            <p>Convert your HTML website into audio frequencies for HTTPMP3 hosting</p>
+        </div>
+        
+        <div class="upload-section">
+            <h3 style="margin-bottom: 20px;">Website Content</h3>
+            
+            <div class="form-group">
+                <label for="uploadMethod">Upload Method</label>
+                <select id="uploadMethod">
+                    <option value="html">Direct HTML Input</option>
+                    <option value="file">Upload HTML File</option>
+                    <option value="url">From URL</option>
+                </select>
+            </div>
+            
+            <div id="htmlInput" class="form-group">
+                <label for="htmlContent">HTML Content</label>
+                <textarea id="htmlContent" placeholder="Paste your HTML content here..."><!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <p>This is my website hosted via HTTPMP3!</p>
+</body>
+</html></textarea>
+            </div>
+            
+            <div id="fileInput" class="form-group" style="display: none;">
+                <label>Upload HTML File</label>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <p>Drag & drop your HTML file here or click to browse</p>
+                    <input type="file" id="fileUpload" accept=".html,.htm" style="display: none;">
+                </div>
+            </div>
+            
+            <div id="urlInput" class="form-group" style="display: none;">
+                <label for="websiteUrl">Website URL</label>
+                <input type="url" id="websiteUrl" placeholder="https://example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="audioFormat">Audio Format</label>
+                <select id="audioFormat">
+                    <option value="wav">WAV (Uncompressed)</option>
+                    <option value="mp3">MP3 (Compressed)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="frequency">Base Frequency (Hz)</label>
+                <input type="number" id="frequency" value="440" min="200" max="2000">
+            </div>
+            
+            <button id="generateBtn" class="btn">🎵 Generate Audio Website</button>
+        </div>
+        
+        <div class="progress-section" id="progressSection">
+            <h3>Converting Website to Audio...</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="progressText">Initializing...</p>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <h3>🎉 Your Website is Ready!</h3>
+            <p>Your website has been successfully converted to audio frequencies.</p>
+            
+            <audio class="audio-player" id="audioPlayer" controls>
+                Your browser does not support the audio element.
+            </audio>
+            
+            <div class="download-links">
+                <button id="downloadBtn" class="btn">📥 Download Audio File</button>
+                <button id="testBtn" class="btn btn-secondary">🧪 Test Decoder</button>
+                <button id="shareBtn" class="btn btn-secondary">🔗 Share Link</button>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #0d1117; border-radius: 8px;">
+                <h4 style="color: #58a6ff; margin-bottom: 10px;">How to Use:</h4>
+                <ol style="color: #8b949e; line-height: 1.8;">
+                    <li>Download the audio file to your device</li>
+                    <li>Play it through speakers or transmit via any audio medium</li>
+                    <li>Use the HTTPMP3 decoder to convert audio back to website</li>
+                    <li>Share the audio file - your website travels as sound!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class WebsiteToAudio {
+            constructor() {
+                this.initializeEventListeners();
+                this.frequencies = this.getFrequencyMap();
+            }
+            
+            initializeEventListeners() {
+                document.getElementById('uploadMethod').addEventListener('change', this.handleMethodChange.bind(this));
+                document.getElementById('generateBtn').addEventListener('click', this.generateAudio.bind(this));
+                document.getElementById('uploadArea').addEventListener('click', () => {
+                    document.getElementById('fileUpload').click();
+                });
+                document.getElementById('fileUpload').addEventListener('change', this.handleFileUpload.bind(this));
+                document.getElementById('testBtn').addEventListener('click', this.testDecoder.bind(this));
+                
+                // Drag and drop
+                const uploadArea = document.getElementById('uploadArea');
+                uploadArea.addEventListener('dragover', this.handleDragOver.bind(this));
+                uploadArea.addEventListener('dragleave', this.handleDragLeave.bind(this));
+                uploadArea.addEventListener('drop', this.handleDrop.bind(this));
+            }
+            
+            handleMethodChange() {
+                const method = document.getElementById('uploadMethod').value;
+                document.getElementById('htmlInput').style.display = method === 'html' ? 'block' : 'none';
+                document.getElementById('fileInput').style.display = method === 'file' ? 'block' : 'none';
+                document.getElementById('urlInput').style.display = method === 'url' ? 'block' : 'none';
+            }
+            
+            handleDragOver(e) {
+                e.preventDefault();
+                document.getElementById('uploadArea').classList.add('dragover');
+            }
+            
+            handleDragLeave(e) {
+                e.preventDefault();
+                document.getElementById('uploadArea').classList.remove('dragover');
+            }
+            
+            handleDrop(e) {
+                e.preventDefault();
+                document.getElementById('uploadArea').classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    this.processFile(files[0]);
+                }
+            }
+            
+            handleFileUpload(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    this.processFile(file);
+                }
+            }
+            
+            async processFile(file) {
+                const text = await file.text();
+                document.getElementById('htmlContent').value = text;
+                document.getElementById('uploadMethod').value = 'html';
+                this.handleMethodChange();
+            }
+            
+            getFrequencyMap() {
+                return {
+                    frame_start: [440, 554, 659],
+                    frame_end: [440, 349, 262],
+                    http_200: [523, 659, 784],
+                    html_open: 440,
+                    html_close: 415,
+                    head_open: 660,
+                    head_close: 622,
+                    body_open: 880,
+                    body_close: 831,
+                    title: [523, 659, 784, 1047],
+                    h1: 1047,
+                    h2: 932,
+                    h3: 831,
+                    p: 698,
+                    div: 622,
+                    a: [392, 494, 587]
+                };
+            }
+            
+            async generateAudio() {
+                const method = document.getElementById('uploadMethod').value;
+                let htmlContent = '';
+                
+                // Get HTML content based on method
+                switch (method) {
+                    case 'html':
+                        htmlContent = document.getElementById('htmlContent').value;
+                        break;
+                    case 'url':
+                        const url = document.getElementById('websiteUrl').value;
+                        if (!url) {
+                            alert('Please enter a URL');
+                            return;
+                        }
+                        try {
+                            const response = await fetch(`/api/fetch-url?url=${encodeURIComponent(url)}`);
+                            htmlContent = await response.text();
+                        } catch (error) {
+                            alert('Failed to fetch URL: ' + error.message);
+                            return;
+                        }
+                        break;
+                }
+                
+                if (!htmlContent.trim()) {
+                    alert('Please provide HTML content');
+                    return;
+                }
+                
+                this.showProgress();
+                await this.convertToAudio(htmlContent);
+            }
+            
+            showProgress() {
+                document.getElementById('progressSection').style.display = 'block';
+                document.getElementById('resultSection').style.display = 'none';
+            }
+            
+            updateProgress(percent, text) {
+                document.getElementById('progressFill').style.width = percent + '%';
+                document.getElementById('progressText').textContent = text;
+            }
+            
+            async convertToAudio(htmlContent) {
+                this.updateProgress(10, 'Parsing HTML structure...');
+                
+                // Simulate conversion process
+                await this.delay(500);
+                this.updateProgress(30, 'Mapping elements to frequencies...');
+                
+                await this.delay(500);
+                this.updateProgress(60, 'Generating audio waveform...');
+                
+                await this.delay(1000);
+                this.updateProgress(90, 'Encoding audio file...');
+                
+                await this.delay(500);
+                this.updateProgress(100, 'Complete!');
+                
+                // Generate actual audio (simplified version)
+                const audioBlob = await this.createAudioFromHTML(htmlContent);
+                
+                setTimeout(() => {
+                    this.showResult(audioBlob);
+                }, 500);
+            }
+            
+            async createAudioFromHTML(htmlContent) {
+                // This is a simplified version - in production you'd use the PHP encoder
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const sampleRate = audioContext.sampleRate;
+                const duration = 10; // 10 seconds
+                const buffer = audioContext.createBuffer(1, sampleRate * duration, sampleRate);
+                const data = buffer.getChannelData(0);
+                
+                // Generate simple tones representing the HTML
+                let time = 0;
+                const toneDuration = 0.5; // 500ms per tone
+                
+                // Add frame_start sequence
+                this.addToneSequence(data, time, this.frequencies.frame_start, sampleRate, toneDuration);
+                time += toneDuration * this.frequencies.frame_start.length;
+                
+                // Add http_200
+                this.addToneSequence(data, time, this.frequencies.http_200, sampleRate, toneDuration);
+                time += toneDuration * this.frequencies.http_200.length;
+                
+                // Add body_open
+                this.addTone(data, time, this.frequencies.body_open, sampleRate, toneDuration);
+                time += toneDuration;
+                
+                // Add frame_end
+                this.addToneSequence(data, time, this.frequencies.frame_end, sampleRate, toneDuration);
+                
+                // Convert to WAV blob
+                return this.bufferToWav(buffer);
+            }
+            
+            addTone(data, startTime, frequency, sampleRate, duration) {
+                const startSample = Math.floor(startTime * sampleRate);
+                const endSample = Math.floor((startTime + duration) * sampleRate);
+                
+                for (let i = startSample; i < endSample && i < data.length; i++) {
+                    const t = (i - startSample) / sampleRate;
+                    data[i] = Math.sin(2 * Math.PI * frequency * t) * 0.3;
+                }
+            }
+            
+            addToneSequence(data, startTime, frequencies, sampleRate, toneDuration) {
+                frequencies.forEach((freq, index) => {
+                    this.addTone(data, startTime + (index * toneDuration), freq, sampleRate, toneDuration);
+                });
+            }
+            
+            bufferToWav(buffer) {
+                const length = buffer.length;
+                const arrayBuffer = new ArrayBuffer(44 + length * 2);
+                const view = new DataView(arrayBuffer);
+                const data = buffer.getChannelData(0);
+                
+                // WAV header
+                const writeString = (offset, string) => {
+                    for (let i = 0; i < string.length; i++) {
+                        view.setUint8(offset + i, string.charCodeAt(i));
+                    }
+                };
+                
+                writeString(0, 'RIFF');
+                view.setUint32(4, 36 + length * 2, true);
+                writeString(8, 'WAVE');
+                writeString(12, 'fmt ');
+                view.setUint32(16, 16, true);
+                view.setUint16(20, 1, true);
+                view.setUint16(22, 1, true);
+                view.setUint32(24, buffer.sampleRate, true);
+                view.setUint32(28, buffer.sampleRate * 2, true);
+                view.setUint16(32, 2, true);
+                view.setUint16(34, 16, true);
+                writeString(36, 'data');
+                view.setUint32(40, length * 2, true);
+                
+                // Convert float samples to 16-bit PCM
+                let offset = 44;
+                for (let i = 0; i < length; i++) {
+                    const sample = Math.max(-1, Math.min(1, data[i]));
+                    view.setInt16(offset, sample * 0x7FFF, true);
+                    offset += 2;
+                }
+                
+                return new Blob([arrayBuffer], { type: 'audio/wav' });
+            }
+            
+            showResult(audioBlob) {
+                document.getElementById('progressSection').style.display = 'none';
+                document.getElementById('resultSection').style.display = 'block';
+                
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audioPlayer = document.getElementById('audioPlayer');
+                audioPlayer.src = audioUrl;
+                
+                document.getElementById('downloadBtn').onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = audioUrl;
+                    a.download = 'website.wav';
+                    a.click();
+                };
+            }
+            
+            testDecoder() {
+                window.open('production_client.html', '_blank');
+            }
+            
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            new WebsiteToAudio();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{
+  "audio": {
+    "sampleRate": 44100,
+    "amplitude": 0.7,
+    "bitDepth": 16,
+    "channels": 1
+  },
+  "timing": {
+    "symbolDuration": 0.1,
+    "markerDuration": 2.0,
+    "fadeInOut": 0.05,
+    "silenceGap": 0.05,
+    "blockSize": 16
+  },
+  "frequencies": {
+    "musical": {
+      "start_marker": [440, 554],
+      "end_marker": [440, 330],
+      "html": 440,
+      "head": 660,
+      "body": 880,
+      "title": [523, 659, 784],
+      "h1": 1046,
+      "h2": 880,
+      "h3": 660,
+      "p": 440,
+      "a": [392, 494],
+      "fsk_0": 1000,
+      "fsk_1": 1200,
+      "sync": 1500
+    },
+    "beep": {
+      "element_base": 1000,
+      "fsk_0": 800,
+      "fsk_1": 1200,
+      "sync": 1500
+    }
+  },
+  "ultrasonic": {
+    "enabled": false,
+    "frequencyShift": 20000,
+    "description": "Shifts all carriers above 20kHz for inaudible operation"
+  },
+  "server": {
+    "host": "localhost",
+    "port": 8081,
+    "documentRoot": ".",
+    "maxFileSize": "10MB"
+  },
+  "client": {
+    "fftSize": 2048,
+    "smoothingTimeConstant": 0.3,
+    "frequencyTolerance": 50,
+    "maxRetransmissions": 3
+  },
+  "protocol": {
+    "version": "1.0",
+    "description": "Protocol % Sound Server - HTML over Audio",
+    "errorCorrection": "CRC-8",
+    "encoding": "FSK + Musical Phrases"
+  }
+}

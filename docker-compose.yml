@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  protocol-sound-server:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PROTOCOL_HOST=0.0.0.0
+      - PROTOCOL_PORT=8080
+      - PROTOCOL_ULTRASONIC=false
+    volumes:
+      - ./audio:/app/audio
+      - ./logs:/app/logs
+      - ./html:/app/html:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "php", "-r", "echo 'OK';"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  protocol-sound-server-ultrasonic:
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      - PROTOCOL_HOST=0.0.0.0
+      - PROTOCOL_PORT=8080
+      - PROTOCOL_ULTRASONIC=true
+    volumes:
+      - ./audio:/app/audio
+      - ./logs:/app/logs
+      - ./html:/app/html:ro
+    restart: unless-stopped
+    profiles:
+      - ultrasonic
