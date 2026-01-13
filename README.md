@@ -473,10 +473,8 @@ SOFTWARE.
 - **GitHub Issues**: [Report bugs and request features](https://github.com/nia-cloud-official/httpmp3/issues)
 - **Discussions**: [Join discussions](https://github.com/nia-cloud-official/httpmp3/discussions)
 
-### Professional Support
-- **Email**: milton@httpmp3.com
-- **Personal**: Contact Milton Vafana directly
-
+### Support
+- **Email**: miltonhyndrex@gmail.com
 ---
 
 <div align="center">
