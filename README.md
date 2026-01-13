@@ -1,4 +1,4 @@
-# 🎵 HTTPMP3 - Audio Web Hosting Platform
+# 🎵 HTTPMP3 - Audio Web Hosting Platform (NOT FULLY FUNCTIONAL STILL FIGURING IT OUT)
 
 > **A real, working system that encodes HTML into audio frequencies and decodes it back. Transform websites into sound waves for universal transmission.**
 
